@@ -342,7 +342,8 @@ ul { list-style: none; }
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: var(--text);
-  word-break: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .section-divider {
@@ -396,7 +397,7 @@ ul { list-style: none; }
   transform: translate3d(0, 60px, 0) scale(0.95);
   pointer-events: none;
   will-change: opacity, transform;
-  padding: clamp(4rem, 10vh, 6rem) 1.25rem 2rem;
+  padding: clamp(5.5rem, 12vh, 7.5rem) 1.25rem 2rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
