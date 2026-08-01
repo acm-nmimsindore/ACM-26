@@ -1,6 +1,6 @@
 // ============================================================
-// ACM NMIMS — Main Interactive Logic
-// Micro-level scroll scrubbing, Three.js, AOS, Lightbox & more
+// ACM NMIMS — Single Viewport Interactive Controller
+// Navigation, Three.js 3D visuals, Lightbox, HUD & Micro-interactions
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,102 +8,155 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---- AOS Init ----
   if (typeof AOS !== 'undefined') {
     AOS.init({
-      duration: 750,
+      duration: 700,
       easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
       once: true,
-      offset: 60,
+      offset: 40,
       delay: 0,
     });
   }
 
   // ============================================================
-  // MICRO-LEVEL CONTINUOUS SCROLL SCRUBBER (Home page)
-  // requestAnimationFrame + lerp for butter-smooth pixel-perfect reveal
+  // SINGLE VIEWPORT VIEW CONTROLLER
   // ============================================================
-  const pinnedWrapper = document.getElementById('pinned-wrapper');
-  const slides = document.querySelectorAll('.content-slide');
-  const indicatorDots = document.querySelectorAll('.indicator-dot');
+  const panels = [...document.querySelectorAll('.view-panel')];
+  const navBtns = [...document.querySelectorAll('#header-nav-list .nav-link')];
+  const mobileNavBtns = [...document.querySelectorAll('.mobile-nav-btn')];
+  const sideDots = [...document.querySelectorAll('#side-indicator-container .indicator-dot')];
+  const hudCounter = document.getElementById('hud-view-counter');
 
-  let rawProgress = 0;
-  let smoothProgress = 0;
+  let currentView = 0;
+  let isTransitioning = false;
   let countersTriggered = false;
 
-  if (pinnedWrapper && slides.length > 0) {
-    const N = slides.length;
+  function switchView(targetIdx) {
+    if (panels.length === 0) return;
+    const newIdx = Math.max(0, Math.min(panels.length - 1, targetIdx));
+    if (newIdx === currentView && panels[newIdx].classList.contains('active')) return;
 
-    // Read raw scroll each frame
-    window.addEventListener('scroll', () => {
-      const rect = pinnedWrapper.getBoundingClientRect();
-      const scrollable = pinnedWrapper.offsetHeight - window.innerHeight;
-      if (scrollable <= 0) return;
+    const direction = newIdx > currentView ? 'down' : 'up';
+    currentView = newIdx;
 
-      if (rect.top <= 0 && Math.abs(rect.top) <= scrollable) {
-        rawProgress = Math.abs(rect.top) / scrollable;
-      } else if (rect.top > 0) {
-        rawProgress = 0;
+    // Update panels active / prev / next states
+    panels.forEach((panel, i) => {
+      panel.classList.remove('active', 'prev', 'next');
+      if (i === currentView) {
+        panel.classList.add('active');
+      } else if (i < currentView) {
+        panel.classList.add('prev');
       } else {
-        rawProgress = 1;
+        panel.classList.add('next');
       }
     });
 
-    // RAF loop — lerp smoothProgress towards rawProgress each frame
-    function renderFrame() {
-      smoothProgress += (rawProgress - smoothProgress) * 0.065;
+    // Update Nav links
+    navBtns.forEach((btn, i) => btn.classList.toggle('active', i === currentView));
+    mobileNavBtns.forEach((btn, i) => btn.classList.toggle('text-primary', i === currentView));
 
-      const step = 1 / (N - 1);
+    // Update Side indicator dots
+    sideDots.forEach((dot, i) => dot.classList.toggle('active', i === currentView));
 
-      slides.forEach((slide, i) => {
-        const center = i * step;
-        const diff = smoothProgress - center;
-        const norm = diff / step; // -1..0 = entering, 0..1 = exiting
-
-        let opacity = 0;
-        let ty = 0;
-        let scale = 0.93;
-
-        if (Math.abs(norm) < 1) {
-          const t = 1 - Math.abs(norm);
-          opacity = Math.pow(t, 1.4);
-          ty = norm * -55;
-          scale = 0.93 + t * 0.07;
-        } else {
-          opacity = 0;
-          ty = norm > 0 ? -55 : 55;
-          scale = 0.93;
-        }
-
-        slide.style.opacity = opacity.toFixed(4);
-        slide.style.transform = `translate3d(0,${ty.toFixed(2)}px,0) scale(${scale.toFixed(4)})`;
-        slide.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none';
-      });
-
-      // Active dot indicator
-      const activeIdx = Math.min(Math.round(smoothProgress * (N - 1)), N - 1);
-      indicatorDots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
-
-      // Trigger stat counters when on slide 1
-      if (activeIdx === 1 && !countersTriggered) triggerCounters();
-
-      // Three.js particle parallax on scroll
-      if (window._threeParticles) {
-        window._threeParticles.rotation.y = smoothProgress * Math.PI * 1.6;
-        window._threeParticles.rotation.x = smoothProgress * Math.PI * 0.4;
-      }
-
-      requestAnimationFrame(renderFrame);
+    // Update HUD counter
+    if (hudCounter) {
+      hudCounter.textContent = `VIEW 0${currentView + 1} / 0${panels.length}`;
     }
 
-    requestAnimationFrame(renderFrame);
+    // Trigger Stat Counters when entering Impact View (index 1)
+    if (currentView === 1) {
+      triggerCounters();
+    }
 
-    // Dot click → scroll to slide position
-    indicatorDots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        const scrollable = pinnedWrapper.offsetHeight - window.innerHeight;
-        const target = pinnedWrapper.offsetTop + (i / (N - 1)) * scrollable;
-        window.scrollTo({ top: target, behavior: 'smooth' });
-      });
-    });
+    // Animate Three.js particles
+    if (window._threeParticles) {
+      const targetRotationY = currentView * (Math.PI * 0.45);
+      const targetRotationX = (currentView % 2 === 0 ? 1 : -1) * (currentView * 0.15);
+
+      if (window._threeCamera) {
+        window._threeCamera.position.z = 5 + (currentView * 0.3);
+      }
+
+      window._threeTargetRotY = targetRotationY;
+      window._threeTargetRotX = targetRotationX;
+    }
   }
+
+  // Bind view switch triggers ([data-view])
+  document.querySelectorAll('[data-view]').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      const idx = parseInt(trigger.getAttribute('data-view') || '0', 10);
+      switchView(idx);
+
+      // Close mobile menu if open
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        document.getElementById('menu-icon')?.classList.remove('hidden');
+        document.getElementById('close-icon')?.classList.add('hidden');
+      }
+    });
+  });
+
+  // Hero Scroll Caret Click
+  const heroScrollBtn = document.getElementById('hero-scroll-btn');
+  if (heroScrollBtn) {
+    heroScrollBtn.addEventListener('click', () => switchView(1));
+  }
+
+  // Mouse Wheel Navigation (Throttled)
+  let lastWheelTime = 0;
+  window.addEventListener('wheel', (e) => {
+    // Prevent wheel view switch if user is scrolling inside an expanded card
+    const activePanel = panels[currentView];
+    if (activePanel && activePanel.scrollHeight > activePanel.clientHeight) {
+      const scrollTop = activePanel.scrollTop;
+      const maxScroll = activePanel.scrollHeight - activePanel.clientHeight;
+      if (e.deltaY > 0 && scrollTop < maxScroll - 5) return; // scroll internal panel down
+      if (e.deltaY < 0 && scrollTop > 5) return;            // scroll internal panel up
+    }
+
+    const now = Date.now();
+    if (now - lastWheelTime < 500) return; // Throttling threshold
+
+    if (Math.abs(e.deltaY) > 20) {
+      lastWheelTime = now;
+      if (e.deltaY > 0) {
+        switchView(currentView + 1);
+      } else {
+        switchView(currentView - 1);
+      }
+    }
+  }, { passive: true });
+
+  // Keyboard Navigation (Arrow Keys / W & S)
+  window.addEventListener('keydown', (e) => {
+    if (document.getElementById('gallery-lightbox')?.classList.contains('active')) return;
+
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key.toLowerCase() === 's') {
+      switchView(currentView + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || e.key.toLowerCase() === 'w') {
+      switchView(currentView - 1);
+    }
+  });
+
+  // Touch Swipe Navigation for mobile
+  let touchStartY = 0;
+  let touchEndY = 0;
+
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    touchEndY = e.changedTouches[0].screenY;
+    const diffY = touchEndY - touchStartY;
+    if (Math.abs(diffY) > 50) {
+      if (diffY < 0) {
+        switchView(currentView + 1); // Swipe up -> next view
+      } else {
+        switchView(currentView - 1); // Swipe down -> prev view
+      }
+    }
+  }, { passive: true });
 
   // ============================================================
   // THREE.JS — Interactive 3D Particle Constellation
@@ -112,29 +165,29 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroCanvas && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(72, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: heroCanvas, alpha: true, antialias: true });
+    window._threeCamera = camera;
 
+    const renderer = new THREE.WebGLRenderer({ canvas: heroCanvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Main particle cloud
-    const COUNT = 320;
+    const COUNT = 360;
     const geo = new THREE.BufferGeometry();
     const pos = new Float32Array(COUNT * 3);
 
     for (let i = 0; i < COUNT * 3; i += 3) {
-      pos[i]   = (Math.random() - 0.5) * 18;
-      pos[i+1] = (Math.random() - 0.5) * 18;
-      pos[i+2] = (Math.random() - 0.5) * 18;
+      pos[i]   = (Math.random() - 0.5) * 20;
+      pos[i+1] = (Math.random() - 0.5) * 20;
+      pos[i+2] = (Math.random() - 0.5) * 20;
     }
 
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
 
     const mat = new THREE.PointsMaterial({
       color: 0xe11d48,
-      size: 0.07,
+      size: 0.08,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.85,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -143,20 +196,20 @@ document.addEventListener('DOMContentLoaded', () => {
     scene.add(particles);
     window._threeParticles = particles;
 
-    // Accent secondary cloud (slightly larger, dimmer)
+    // Accent cloud
     const geo2 = new THREE.BufferGeometry();
-    const pos2 = new Float32Array(80 * 3);
-    for (let i = 0; i < 80 * 3; i += 3) {
-      pos2[i]   = (Math.random() - 0.5) * 22;
-      pos2[i+1] = (Math.random() - 0.5) * 22;
-      pos2[i+2] = (Math.random() - 0.5) * 22;
+    const pos2 = new Float32Array(90 * 3);
+    for (let i = 0; i < 90 * 3; i += 3) {
+      pos2[i]   = (Math.random() - 0.5) * 24;
+      pos2[i+1] = (Math.random() - 0.5) * 24;
+      pos2[i+2] = (Math.random() - 0.5) * 24;
     }
     geo2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
     const mat2 = new THREE.PointsMaterial({
-      color: 0xff6080,
-      size: 0.13,
+      color: 0xff4d6d,
+      size: 0.14,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.3,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -168,8 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let camX = 0, camY = 0;
 
     window.addEventListener('mousemove', (e) => {
-      mx = (e.clientX / window.innerWidth - 0.5) * 0.45;
-      my = (e.clientY / window.innerHeight - 0.5) * 0.45;
+      mx = (e.clientX / window.innerWidth - 0.5) * 0.5;
+      my = (e.clientY / window.innerHeight - 0.5) * 0.5;
     });
 
     window.addEventListener('resize', () => {
@@ -181,6 +234,14 @@ document.addEventListener('DOMContentLoaded', () => {
     (function animateThree() {
       requestAnimationFrame(animateThree);
       particles.rotation.z += 0.0004;
+
+      if (window._threeTargetRotY !== undefined) {
+        particles.rotation.y += (window._threeTargetRotY - particles.rotation.y) * 0.04;
+      }
+      if (window._threeTargetRotX !== undefined) {
+        particles.rotation.x += (window._threeTargetRotX - particles.rotation.x) * 0.04;
+      }
+
       camX += (mx - camX) * 0.05;
       camY += (-my - camY) * 0.05;
       camera.position.x = camX;
@@ -189,26 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderer.render(scene, camera);
     })();
   }
-
-  // ============================================================
-  // STICKY HEADER + SCROLL PROGRESS BAR
-  // ============================================================
-  const header = document.querySelector('header');
-  const scrollProg = document.getElementById('scroll-progress');
-
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY > 50;
-    if (scrolled) {
-      header?.setAttribute('data-scrolled', '1');
-    } else {
-      header?.removeAttribute('data-scrolled');
-    }
-
-    if (scrollProg) {
-      const maxH = document.documentElement.scrollHeight - window.innerHeight;
-      scrollProg.style.width = `${Math.min((window.scrollY / maxH) * 100, 100)}%`;
-    }
-  });
 
   // ============================================================
   // MOBILE MENU TOGGLE
@@ -224,17 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileMenu.classList.toggle('hidden', open);
       menuIcon?.classList.toggle('hidden', !open);
       closeIcon?.classList.toggle('hidden', open);
-      document.body.style.overflow = open ? '' : 'hidden';
     });
-
-    mobileMenu.querySelectorAll('a').forEach(link =>
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        menuIcon?.classList.remove('hidden');
-        closeIcon?.classList.add('hidden');
-        document.body.style.overflow = '';
-      })
-    );
   }
 
   // ============================================================
@@ -246,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('[data-count]').forEach(el => {
       const end = parseInt(el.getAttribute('data-count') || '0', 10);
-      const dur = 1800;
+      const dur = 1600;
       const t0  = performance.now();
 
       (function tick(now) {
@@ -259,22 +290,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Also trigger counters via IntersectionObserver for all viewports/pages
-  const firstCountEl = document.querySelector('[data-count]');
-  if (firstCountEl) {
-    const targetObs = firstCountEl.closest('.content-slide') || firstCountEl.closest('.stat-card') || firstCountEl.parentElement;
-    if (targetObs) {
-      new IntersectionObserver((entries, obs) => {
-        if (entries[0].isIntersecting) { triggerCounters(); obs.disconnect(); }
-      }, { threshold: 0.15 }).observe(targetObs);
-    }
-  }
-
   // ============================================================
   // EXPANDABLE EVENT BRIEFS
   // ============================================================
   document.querySelectorAll('.toggle-brief-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const card = btn.closest('.event-card');
       const brief  = card?.querySelector('.event-brief');
       const text   = btn.querySelector('.btn-text');
@@ -288,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ============================================================
-  // GALLERY LIGHTBOX MODAL (With Touch Swipe & Keyboard Support)
+  // GALLERY LIGHTBOX MODAL
   // ============================================================
   const modal      = document.getElementById('gallery-lightbox');
   const lbImg      = document.getElementById('lightbox-img');
@@ -306,12 +327,10 @@ document.addEventListener('DOMContentLoaded', () => {
     lbImg.src = items[cur].getAttribute('data-lightbox-src') || '';
     if (lbCounter) lbCounter.textContent = `${cur + 1} / ${items.length}`;
     modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
   }
 
   function closeLb() {
     modal?.classList.remove('active');
-    document.body.style.overflow = '';
   }
 
   items.forEach((item, idx) => {
@@ -330,27 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modal) closeLb();
   });
 
-  // Touch Swipe for mobile lightbox
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  modal?.addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  modal?.addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, { passive: true });
-
-  function handleSwipe() {
-    const diff = touchEndX - touchStartX;
-    if (Math.abs(diff) > 40) {
-      if (diff < 0) openLb(cur + 1); // Swipe left -> Next
-      else openLb(cur - 1);          // Swipe right -> Prev
-    }
-  }
-
   document.addEventListener('keydown', e => {
     if (!modal?.classList.contains('active')) return;
     if (e.key === 'Escape')     closeLb();
@@ -358,4 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowLeft')  openLb(cur - 1);
   });
 
+  // Initialize View 0
+  switchView(0);
 });
