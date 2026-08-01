@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team — ACM NMIMS Indore</title>
+  <meta name="description" content="Meet the faculty mentors, executive core, ACM-W team, and domain leads of ACM NMIMS Indore student chapter.">
+  <meta name="theme-color" content="#e11d48">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#080810',
+            surface: '#131320',
+            primary: { DEFAULT: '#e11d48', bright: '#f43f5e' },
+          },
+          fontFamily: {
+            sans: ['Inter','sans-serif'],
+            mono: ['JetBrains Mono','monospace'],
+            display: ['Space Grotesk','sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+
+  <style>
+    header[data-scrolled] {
+      background: rgba(8,8,16,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    }
+    header { transition: background 0.3s, box-shadow 0.3s; }
+
+    /* Avatar placeholder with initials */
+    .avatar-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 2rem;
+      color: rgba(225,29,72,0.8);
+      background: linear-gradient(135deg, #131320 0%, #1a1a30 100%);
+      letter-spacing: -0.02em;
+    }
+
+    .member-card-role {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+    }
+
+    .member-card-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .member-card-dept {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.05em;
+    }
+
+    /* Tilt card 3D hover */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+  </style>
+</head>
+<body style="background:var(--bg)" class="overflow-x-hidden">
+
+  <!-- HEADER -->
+  <header class="fixed top-0 inset-x-0 z-50 py-5">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/image_1785059171622.png" alt="ACM NMIMS" class="h-9 w-auto">
+        <div class="hidden sm:flex flex-col leading-tight">
+          <span class="font-display font-bold text-base tracking-tight text-white">ACM NMIMS</span>
+          <span class="font-mono text-[9px] tracking-[0.18em] uppercase" style="color:#a8a6b4">Student Chapter · Indore</span>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <ul class="flex items-center gap-6">
+          <li><a href="index.html"   class="nav-link">Home</a></li>
+          <li><a href="events.html"  class="nav-link">Events</a></li>
+          <li><a href="team.html"    class="nav-link active">Team</a></li>
+          <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+        </ul>
+        <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
+           class="btn-primary font-display text-xs tracking-wide">
+          Join <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </nav>
+      <button id="mobile-menu-btn" class="md:hidden z-50 text-white p-1.5" aria-label="Toggle menu">
+        <i id="menu-icon"  data-lucide="menu" class="w-5 h-5"></i>
+        <i id="close-icon" data-lucide="x"    class="w-5 h-5 hidden"></i>
+      </button>
+      <div id="mobile-menu" class="hidden fixed inset-0 z-40 flex flex-col items-center justify-center gap-7">
+        <ul class="flex flex-col items-center gap-5 text-center">
+          <li><a href="index.html"   class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Home</a></li>
+          <li><a href="events.html"  class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Events</a></li>
+          <li><a href="team.html"    class="text-2xl font-display font-bold text-primary">Team</a></li>
+          <li><a href="gallery.html" class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Gallery</a></li>
+        </ul>
+        <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
+           class="btn-primary text-sm px-8 py-3">Join The Chapter</a>
+      </div>
+    </div>
+    <div id="scroll-progress"></div>
+  </header>
+
+  <main class="flex-grow pt-28 pb-20">
+
+    <!-- PAGE HERO -->
+    <section class="relative py-20 overflow-hidden border-b border-white/5">
+      <div class="absolute inset-0 bg-grid" style="opacity:0.6;pointer-events:none"></div>
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 glow-orb w-[40rem] h-[20rem]"
+           style="background:rgba(225,29,72,0.12)"></div>
+      <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+        <div data-aos="fade-up" class="pill mb-5 mx-auto w-fit">
+          <i data-lucide="users-round" class="w-3 h-3"></i>
+          <span>THE TEAM</span>
+        </div>
+        <h1 data-aos="fade-up" data-aos-delay="100" class="section-heading text-5xl sm:text-6xl md:text-7xl mb-5">
+          The <span class="text-gradient">People</span> Behind the Mission
+        </h1>
+        <p data-aos="fade-up" data-aos-delay="200" class="font-mono text-sm max-w-xl mx-auto leading-relaxed" style="color:#a8a6b4">
+          Faculty mentors, executive leadership, women in computing, and domain specialists — powering everything ACM NMIMS does.
+        </p>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         FACULTY ADVISORS
+    ────────────────────────────────────────── -->
+    <section class="py-20 relative overflow-hidden">
+      <div class="absolute inset-0 bg-dots" style="opacity:0.07;pointer-events:none"></div>
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div data-aos="fade-right" class="section-divider mb-12">
+          <div class="pill w-fit">
+            <i data-lucide="graduation-cap" class="w-3 h-3"></i>
+            <span>FACULTY ADVISORS</span>
+          </div>
+          <h2 class="section-heading text-3xl sm:text-4xl mt-2">Our Mentors</h2>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+
+          <div data-aos="fade-up" data-aos-delay="0" class="member-card tilt-card">
+            <div class="avatar-placeholder">DG</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Faculty Advisor</div>
+              <div class="member-card-name">Dr. [Faculty Name]</div>
+              <div class="member-card-dept mt-0.5">Computer Science</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="60" class="member-card tilt-card">
+            <div class="avatar-placeholder">AR</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Faculty Advisor</div>
+              <div class="member-card-name">Dr. [Faculty Name]</div>
+              <div class="member-card-dept mt-0.5">Information Systems</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="120" class="member-card tilt-card">
+            <div class="avatar-placeholder">SM</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">ACM-W Advisor</div>
+              <div class="member-card-name">Dr. [Faculty Name]</div>
+              <div class="member-card-dept mt-0.5">Data Science</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="180" class="member-card tilt-card">
+            <div class="avatar-placeholder">PK</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Faculty Mentor</div>
+              <div class="member-card-name">Prof. [Faculty Name]</div>
+              <div class="member-card-dept mt-0.5">AI &amp; ML</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         ACM EXECUTIVE CORE
+    ────────────────────────────────────────── -->
+    <section class="py-20 border-t border-white/5" style="background:#0b0b16">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div data-aos="fade-right" class="section-divider mb-12">
+          <div class="pill w-fit">
+            <i data-lucide="shield" class="w-3 h-3"></i>
+            <span>ACM CORE</span>
+          </div>
+          <h2 class="section-heading text-3xl sm:text-4xl mt-2">Executive Leadership</h2>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+
+          <div data-aos="fade-up" data-aos-delay="0" class="member-card tilt-card">
+            <div class="avatar-placeholder">CS</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">President</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="50" class="member-card tilt-card">
+            <div class="avatar-placeholder">VP</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Vice President</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="100" class="member-card tilt-card">
+            <div class="avatar-placeholder">GS</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Gen. Secretary</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="150" class="member-card tilt-card">
+            <div class="avatar-placeholder">TR</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Treasurer</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="200" class="member-card tilt-card">
+            <div class="avatar-placeholder">TC</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Technical Chair</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="250" class="member-card tilt-card">
+            <div class="avatar-placeholder">EC</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Events Chair</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="300" class="member-card tilt-card">
+            <div class="avatar-placeholder">PR</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">PR &amp; Marketing</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="350" class="member-card tilt-card">
+            <div class="avatar-placeholder">DS</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Design Lead</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         ACM-W
+    ────────────────────────────────────────── -->
+    <section class="py-20 relative overflow-hidden border-t border-white/5">
+      <div class="absolute inset-0 bg-grid" style="opacity:0.4;pointer-events:none"></div>
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div data-aos="fade-right" class="mb-12">
+          <div class="flex items-center gap-4 flex-wrap mb-3">
+            <div class="pill">
+              <i data-lucide="heart" class="w-3 h-3"></i>
+              <span>ACM-W</span>
+            </div>
+            <span class="font-mono text-[10px] px-3 py-1 rounded-full"
+                  style="background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);color:#f43f5e">
+              Women in Computing
+            </span>
+          </div>
+          <div class="section-divider mt-0">
+            <h2 class="section-heading text-3xl sm:text-4xl">ACM-W Leadership</h2>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+
+          <div data-aos="fade-up" data-aos-delay="0" class="member-card tilt-card">
+            <div class="avatar-placeholder" style="color:rgba(244,63,94,0.9)">WC</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5" style="color:#f43f5e">W-Chair</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="60" class="member-card tilt-card">
+            <div class="avatar-placeholder" style="color:rgba(244,63,94,0.9)">WS</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5" style="color:#f43f5e">W-Secretary</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="120" class="member-card tilt-card">
+            <div class="avatar-placeholder" style="color:rgba(244,63,94,0.9)">WE</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5" style="color:#f43f5e">Events Lead</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="180" class="member-card tilt-card">
+            <div class="avatar-placeholder" style="color:rgba(244,63,94,0.9)">WO</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5" style="color:#f43f5e">Outreach</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="240" class="member-card tilt-card">
+            <div class="avatar-placeholder" style="color:rgba(244,63,94,0.9)">WD</div>
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5" style="color:#f43f5e">Design</div>
+              <div class="member-card-name">[Member Name]</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────
+         DOMAIN LEADS
+    ────────────────────────────────────────── -->
+    <section class="py-20 border-t border-white/5" style="background:#0b0b16">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div data-aos="fade-right" class="section-divider mb-12">
+          <div class="pill w-fit">
+            <i data-lucide="layers" class="w-3 h-3"></i>
+            <span>DOMAIN LEADS</span>
+          </div>
+          <h2 class="section-heading text-3xl sm:text-4xl mt-2">Specialist Verticals</h2>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+
+          <div data-aos="fade-up" data-aos-delay="0" class="glass-card p-5 flex flex-col gap-3">
+            <div class="icon-badge">
+              <i data-lucide="cpu" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-white text-sm mb-0.5">AI/ML Lead</div>
+              <div class="font-mono text-[10px] uppercase tracking-wider mb-2" style="color:#e11d48">Deep Learning</div>
+              <div class="font-mono text-xs" style="color:#6b6a78">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="60" class="glass-card p-5 flex flex-col gap-3">
+            <div class="icon-badge">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-white text-sm mb-0.5">Cybersecurity Lead</div>
+              <div class="font-mono text-[10px] uppercase tracking-wider mb-2" style="color:#e11d48">Ethical Hacking</div>
+              <div class="font-mono text-xs" style="color:#6b6a78">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="120" class="glass-card p-5 flex flex-col gap-3">
+            <div class="icon-badge">
+              <i data-lucide="code-2" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-white text-sm mb-0.5">Dev Lead</div>
+              <div class="font-mono text-[10px] uppercase tracking-wider mb-2" style="color:#e11d48">Full Stack</div>
+              <div class="font-mono text-xs" style="color:#6b6a78">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="180" class="glass-card p-5 flex flex-col gap-3">
+            <div class="icon-badge">
+              <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-white text-sm mb-0.5">Data Science Lead</div>
+              <div class="font-mono text-[10px] uppercase tracking-wider mb-2" style="color:#e11d48">Analytics</div>
+              <div class="font-mono text-xs" style="color:#6b6a78">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="240" class="glass-card p-5 flex flex-col gap-3">
+            <div class="icon-badge">
+              <i data-lucide="smartphone" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-white text-sm mb-0.5">Mobile Dev Lead</div>
+              <div class="font-mono text-[10px] uppercase tracking-wider mb-2" style="color:#e11d48">iOS / Android</div>
+              <div class="font-mono text-xs" style="color:#6b6a78">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="300" class="glass-card p-5 flex flex-col gap-3">
+            <div class="icon-badge">
+              <i data-lucide="megaphone" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-white text-sm mb-0.5">Content Lead</div>
+              <div class="font-mono text-[10px] uppercase tracking-wider mb-2" style="color:#e11d48">Media &amp; Comms</div>
+              <div class="font-mono text-xs" style="color:#6b6a78">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="360" class="glass-card p-5 flex flex-col gap-3">
+            <div class="icon-badge">
+              <i data-lucide="pen-tool" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-white text-sm mb-0.5">Design Lead</div>
+              <div class="font-mono text-[10px] uppercase tracking-wider mb-2" style="color:#e11d48">UI / UX</div>
+              <div class="font-mono text-xs" style="color:#6b6a78">[Member Name]</div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="420" class="glass-card p-5 flex flex-col gap-3">
+            <div class="icon-badge">
+              <i data-lucide="trophy" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-white text-sm mb-0.5">Competitive Lead</div>
+              <div class="font-mono text-[10px] uppercase tracking-wider mb-2" style="color:#e11d48">CP &amp; Contests</div>
+              <div class="font-mono text-xs" style="color:#6b6a78">[Member Name]</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- OC JOIN CTA -->
+    <section class="py-24 border-t border-white/5">
+      <div class="max-w-5xl mx-auto px-6">
+        <div data-aos="fade-up" class="cta-section p-10 sm:p-16 text-center relative overflow-hidden">
+          <div class="absolute top-0 left-0 font-mono text-[7rem] font-bold leading-none select-none pointer-events-none"
+               style="color:rgba(225,29,72,0.04);top:-1rem;left:-1rem">ACM</div>
+          <div class="relative z-10">
+            <div class="pill mb-6 mx-auto w-fit">
+              <i data-lucide="rocket" class="w-3 h-3"></i>
+              <span>JOIN THE TEAM</span>
+            </div>
+            <h2 class="section-heading text-3xl sm:text-5xl mb-4">
+              Become part of the <span class="text-gradient">core team</span>.
+            </h2>
+            <p class="font-mono text-sm max-w-lg mx-auto mb-8 leading-relaxed" style="color:#a8a6b4">
+              The Organizing Committee is open to all NMIMS Indore students. Applications open every semester — bring your skills and your ambition.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
+                 class="btn-primary text-sm px-8 py-3.5 font-display">
+                Apply Now <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+              <a href="mailto:acm@nmims.edu" class="btn-ghost text-sm px-8 py-3.5">
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/5 pt-12 pb-8 relative" style="background:var(--bg)">
+    <div class="footer-glow-line absolute top-0 inset-x-0"></div>
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs" style="color:#6b6a78">
+      <span>© 2026 ACM NMIMS Indore Student Chapter</span>
+      <nav class="flex items-center gap-5">
+        <a href="index.html"   class="hover:text-primary transition-colors">/home</a>
+        <a href="events.html"  class="hover:text-primary transition-colors">/events</a>
+        <a href="team.html"    class="hover:text-primary transition-colors">/team</a>
+        <a href="gallery.html" class="hover:text-primary transition-colors">/gallery</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script src="js/main.js"></script>
+  <script>lucide.createIcons();</script>
+
+  <script>
+    // 3D tilt on team cards
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transform = `perspective(600px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.03)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  </script>
+</body>
+</html>

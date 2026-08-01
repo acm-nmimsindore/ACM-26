@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — ACM NMIMS Indore</title>
+  <meta name="description" content="Photo gallery of ACM NMIMS Indore chapter events — hackathons, talks, workshops and more.">
+  <meta name="theme-color" content="#e11d48">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#080810',
+            surface: '#131320',
+            primary: { DEFAULT: '#e11d48', bright: '#f43f5e' },
+          },
+          fontFamily: {
+            sans: ['Inter','sans-serif'],
+            mono: ['JetBrains Mono','monospace'],
+            display: ['Space Grotesk','sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+
+  <style>
+    header[data-scrolled] {
+      background: rgba(8,8,16,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    }
+    header { transition: background 0.3s, box-shadow 0.3s; }
+
+    /* Masonry */
+    .masonry {
+      columns: 1;
+      column-gap: 1rem;
+    }
+    @media (min-width: 640px)  { .masonry { columns: 2; } }
+    @media (min-width: 900px)  { .masonry { columns: 3; } }
+    @media (min-width: 1200px) { .masonry { columns: 4; } }
+
+    .masonry .gallery-item {
+      margin-bottom: 1rem;
+      break-inside: avoid;
+    }
+
+    /* Lightbox nav buttons */
+    .lb-btn {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .lb-btn:hover {
+      background: rgba(225,29,72,0.3);
+      transform: scale(1.08);
+    }
+  </style>
+</head>
+<body style="background:var(--bg)" class="overflow-x-hidden">
+
+  <!-- HEADER -->
+  <header class="fixed top-0 inset-x-0 z-50 py-5">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/image_1785059171622.png" alt="ACM NMIMS" class="h-9 w-auto">
+        <div class="hidden sm:flex flex-col leading-tight">
+          <span class="font-display font-bold text-base tracking-tight text-white">ACM NMIMS</span>
+          <span class="font-mono text-[9px] tracking-[0.18em] uppercase" style="color:#a8a6b4">Student Chapter · Indore</span>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <ul class="flex items-center gap-6">
+          <li><a href="index.html"   class="nav-link">Home</a></li>
+          <li><a href="events.html"  class="nav-link">Events</a></li>
+          <li><a href="team.html"    class="nav-link">Team</a></li>
+          <li><a href="gallery.html" class="nav-link active">Gallery</a></li>
+        </ul>
+        <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
+           class="btn-primary font-display text-xs tracking-wide">
+          Join <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </nav>
+      <button id="mobile-menu-btn" class="md:hidden z-50 text-white p-1.5" aria-label="Toggle menu">
+        <i id="menu-icon"  data-lucide="menu" class="w-5 h-5"></i>
+        <i id="close-icon" data-lucide="x"    class="w-5 h-5 hidden"></i>
+      </button>
+      <div id="mobile-menu" class="hidden fixed inset-0 z-40 flex flex-col items-center justify-center gap-7">
+        <ul class="flex flex-col items-center gap-5 text-center">
+          <li><a href="index.html"   class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Home</a></li>
+          <li><a href="events.html"  class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Events</a></li>
+          <li><a href="team.html"    class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Team</a></li>
+          <li><a href="gallery.html" class="text-2xl font-display font-bold text-primary">Gallery</a></li>
+        </ul>
+        <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
+           class="btn-primary text-sm px-8 py-3">Join The Chapter</a>
+      </div>
+    </div>
+    <div id="scroll-progress"></div>
+  </header>
+
+  <main class="flex-grow pt-28 pb-20">
+
+    <!-- PAGE HERO -->
+    <section class="relative py-20 overflow-hidden border-b border-white/5">
+      <div class="absolute inset-0 bg-grid" style="opacity:0.6;pointer-events:none"></div>
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 glow-orb w-[40rem] h-[20rem]"
+           style="background:rgba(225,29,72,0.12)"></div>
+      <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+        <div data-aos="fade-up" class="pill mb-5 mx-auto w-fit">
+          <i data-lucide="image" class="w-3 h-3"></i>
+          <span>PHOTO GALLERY</span>
+        </div>
+        <h1 data-aos="fade-up" data-aos-delay="100" class="section-heading text-5xl sm:text-6xl md:text-7xl mb-5">
+          Chapter <span class="text-gradient">Moments</span>
+        </h1>
+        <p data-aos="fade-up" data-aos-delay="200" class="font-mono text-sm max-w-xl mx-auto leading-relaxed" style="color:#a8a6b4">
+          Candid snapshots from our hackathons, tech talks, launch events, and behind-the-scenes moments.<br>Click any photo to view full-screen.
+        </p>
+      </div>
+    </section>
+
+    <!-- GALLERY: ACM-W Launch -->
+    <section class="py-20 relative overflow-hidden">
+      <div class="absolute inset-0 bg-dots" style="opacity:0.07;pointer-events:none"></div>
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div data-aos="fade-right" class="section-divider mb-10">
+          <div class="pill w-fit">
+            <i data-lucide="heart" class="w-3 h-3"></i>
+            <span>SEP 22, 2025</span>
+          </div>
+          <h2 class="section-heading text-3xl sm:text-4xl mt-2">ACM-W Launch Event</h2>
+        </div>
+
+        <div class="masonry">
+
+          <div data-aos="fade-up" data-aos-delay="0"
+               class="gallery-item"
+               data-lightbox-src="assets/acm_gallery.png"
+               role="button" tabindex="0" aria-label="Gallery image 1">
+            <img src="assets/acm_gallery.png" alt="ACM-W Launch: Opening Ceremony" loading="lazy">
+            <div class="gallery-overlay">
+              <i data-lucide="zoom-in" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="60"
+               class="gallery-item"
+               data-lightbox-src="assets/acm_events.png"
+               role="button" tabindex="0" aria-label="Gallery image 2">
+            <img src="assets/acm_events.png" alt="ACM Events showcase" loading="lazy">
+            <div class="gallery-overlay">
+              <i data-lucide="zoom-in" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="120"
+               class="gallery-item"
+               data-lightbox-src="assets/generated_images/speaker-session.jpg"
+               role="button" tabindex="0" aria-label="Gallery image 3">
+            <img src="assets/generated_images/speaker-session.jpg" alt="Speaker session at ACM NMIMS" loading="lazy">
+            <div class="gallery-overlay">
+              <i data-lucide="zoom-in" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="180"
+               class="gallery-item"
+               data-lightbox-src="assets/acm_team.png"
+               role="button" tabindex="0" aria-label="Gallery image 4">
+            <img src="assets/acm_team.png" alt="ACM NMIMS team" loading="lazy">
+            <div class="gallery-overlay">
+              <i data-lucide="zoom-in" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="240"
+               class="gallery-item"
+               data-lightbox-src="assets/generated_images/tech-jenga.jpg"
+               role="button" tabindex="0" aria-label="Gallery image 5">
+            <img src="assets/generated_images/tech-jenga.jpg" alt="Tech Jenga game at ACM" loading="lazy">
+            <div class="gallery-overlay">
+              <i data-lucide="zoom-in" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="300"
+               class="gallery-item"
+               data-lightbox-src="assets/generated_images/web-sprint.jpg"
+               role="button" tabindex="0" aria-label="Gallery image 6">
+            <img src="assets/generated_images/web-sprint.jpg" alt="Web sprint workshop" loading="lazy">
+            <div class="gallery-overlay">
+              <i data-lucide="zoom-in" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="360"
+               class="gallery-item"
+               data-lightbox-src="assets/generated_images/hero-bg.jpg"
+               role="button" tabindex="0" aria-label="Gallery image 7">
+            <img src="assets/generated_images/hero-bg.jpg" alt="ACM NMIMS Campus" loading="lazy">
+            <div class="gallery-overlay">
+              <i data-lucide="zoom-in" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="420"
+               class="gallery-item"
+               data-lightbox-src="assets/acm_home.png"
+               role="button" tabindex="0" aria-label="Gallery image 8">
+            <img src="assets/acm_home.png" alt="ACM NMIMS home chapter" loading="lazy">
+            <div class="gallery-overlay">
+              <i data-lucide="zoom-in" class="w-8 h-8 text-white"></i>
+            </div>
+          </div>
+
+        </div><!-- /masonry -->
+      </div>
+    </section>
+
+    <!-- CTA — Submit Your Photos -->
+    <section class="py-20 border-t border-white/5" style="background:#0b0b16">
+      <div class="max-w-4xl mx-auto px-6">
+        <div data-aos="fade-up" class="cta-section p-10 sm:p-14 text-center">
+          <div class="pill mb-6 mx-auto w-fit">
+            <i data-lucide="camera" class="w-3 h-3"></i>
+            <span>CONTRIBUTE</span>
+          </div>
+          <h2 class="section-heading text-3xl sm:text-4xl mb-4">
+            Have photos to <span class="text-gradient">share</span>?
+          </h2>
+          <p class="font-mono text-sm max-w-md mx-auto mb-8 leading-relaxed" style="color:#a8a6b4">
+            Captured a great moment at an ACM event? Send us your shots and we'll feature them in our gallery.
+          </p>
+          <a href="mailto:acm@nmims.edu?subject=Photo Submission for ACM Gallery"
+             class="btn-primary text-sm px-8 py-3.5 font-display">
+            Submit Photos <i data-lucide="upload" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       LIGHTBOX MODAL
+       ============================================================ -->
+  <div id="gallery-lightbox" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+    <div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-10">
+      <button id="close-lightbox" class="lb-btn" aria-label="Close">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Counter -->
+    <div class="absolute top-4 left-1/2 -translate-x-1/2 font-mono text-xs z-10" style="color:#6b6a78">
+      <span id="lightbox-counter">1 / 8</span>
+    </div>
+
+    <!-- Navigation -->
+    <div class="relative flex items-center justify-center gap-6 w-full px-4 sm:px-10">
+      <button id="prev-lightbox" class="lb-btn" aria-label="Previous photo">
+        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+      </button>
+
+      <img id="lightbox-img" src="" alt="Gallery photo full view"
+           class="flex-1 max-w-[80vw] max-h-[80vh] object-contain rounded-lg"
+           style="box-shadow:0 30px 80px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.05)">
+
+      <button id="next-lightbox" class="lb-btn" aria-label="Next photo">
+        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Keyboard hint -->
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 font-mono text-[10px]"
+         style="color:#6b6a78">
+      <span class="px-1.5 py-0.5 rounded" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08)">←</span>
+      <span class="px-1.5 py-0.5 rounded" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08)">→</span>
+      <span>navigate</span>
+      <span class="px-1.5 py-0.5 rounded ml-2" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08)">Esc</span>
+      <span>close</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/5 pt-12 pb-8 relative" style="background:var(--bg)">
+    <div class="footer-glow-line absolute top-0 inset-x-0"></div>
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs" style="color:#6b6a78">
+      <span>© 2026 ACM NMIMS Indore Student Chapter</span>
+      <nav class="flex items-center gap-5">
+        <a href="index.html"   class="hover:text-primary transition-colors">/home</a>
+        <a href="events.html"  class="hover:text-primary transition-colors">/events</a>
+        <a href="team.html"    class="hover:text-primary transition-colors">/team</a>
+        <a href="gallery.html" class="hover:text-primary transition-colors">/gallery</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script src="js/main.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
