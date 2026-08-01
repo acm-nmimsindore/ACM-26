@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ============================================================
-  // GALLERY LIGHTBOX MODAL
+  // GALLERY LIGHTBOX MODAL (With Touch Swipe Support)
   // ============================================================
   const modal      = document.getElementById('gallery-lightbox');
   const lbImg      = document.getElementById('lightbox-img');
@@ -318,6 +318,27 @@ document.addEventListener('DOMContentLoaded', () => {
   modal?.addEventListener('click', e => {
     if (e.target === modal) closeLb();
   });
+
+  // Touch Swipe for mobile lightbox
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  modal?.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  modal?.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 40) {
+      if (diff < 0) openLb(cur + 1); // Swipe left -> Next
+      else openLb(cur - 1);          // Swipe right -> Prev
+    }
+  }
 
   document.addEventListener('keydown', e => {
     if (!modal?.classList.contains('active')) return;
