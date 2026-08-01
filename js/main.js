@@ -1,6 +1,6 @@
 // ============================================================
-// ACM NMIMS — Single Viewport Interactive Controller
-// Navigation, Three.js 3D visuals, Lightbox, HUD & Micro-interactions
+// ACM NMIMS — Micro-Pixel Scroll Scrubbing Controller
+// 60FPS RAF Lerp, Three.js 3D Constellation & Single-Viewport Stage
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,146 +17,138 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================================
-  // SINGLE VIEWPORT VIEW CONTROLLER
+  // CONTINUOUS MICRO-PIXEL SCROLL SCRUBBER ENGINE
   // ============================================================
-  const panels = [...document.querySelectorAll('.view-panel')];
+  const pinnedWrapper = document.getElementById('pinned-wrapper');
+  const slides = [...document.querySelectorAll('.content-slide')];
   const navBtns = [...document.querySelectorAll('#header-nav-list .nav-link')];
   const mobileNavBtns = [...document.querySelectorAll('.mobile-nav-btn')];
   const sideDots = [...document.querySelectorAll('#side-indicator-container .indicator-dot')];
   const hudCounter = document.getElementById('hud-view-counter');
 
-  let currentView = 0;
-  let isTransitioning = false;
+  let rawProgress = 0;
+  let smoothProgress = 0;
   let countersTriggered = false;
 
-  function switchView(targetIdx) {
-    if (panels.length === 0) return;
-    const newIdx = Math.max(0, Math.min(panels.length - 1, targetIdx));
-    if (newIdx === currentView && panels[newIdx].classList.contains('active')) return;
+  if (pinnedWrapper && slides.length > 0) {
+    const N = slides.length;
 
-    const direction = newIdx > currentView ? 'down' : 'up';
-    currentView = newIdx;
+    // Read exact window scroll offset for continuous progress
+    function updateScrollProgress() {
+      const rect = pinnedWrapper.getBoundingClientRect();
+      const scrollable = pinnedWrapper.offsetHeight - window.innerHeight;
+      if (scrollable <= 0) return;
 
-    // Update panels active / prev / next states
-    panels.forEach((panel, i) => {
-      panel.classList.remove('active', 'prev', 'next');
-      if (i === currentView) {
-        panel.classList.add('active');
-      } else if (i < currentView) {
-        panel.classList.add('prev');
+      if (rect.top <= 0 && Math.abs(rect.top) <= scrollable) {
+        rawProgress = Math.abs(rect.top) / scrollable;
+      } else if (rect.top > 0) {
+        rawProgress = 0;
       } else {
-        panel.classList.add('next');
+        rawProgress = 1;
       }
+    }
+
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress();
+
+    // 60FPS RAF loop for micro-pixel smooth lerping
+    function renderFrame() {
+      smoothProgress += (rawProgress - smoothProgress) * 0.08;
+
+      const step = 1 / (N - 1);
+
+      slides.forEach((slide, i) => {
+        const center = i * step;
+        const diff = smoothProgress - center;
+        const norm = diff / step; // -1..0 = entering, 0..1 = exiting
+
+        let opacity = 0;
+        let ty = 0;
+        let scale = 0.94;
+
+        if (Math.abs(norm) < 1) {
+          const t = 1 - Math.abs(norm);
+          opacity = Math.pow(t, 1.3);
+          ty = norm * -60;
+          scale = 0.94 + t * 0.06;
+        } else {
+          opacity = 0;
+          ty = norm > 0 ? -60 : 60;
+          scale = 0.94;
+        }
+
+        slide.style.opacity = opacity.toFixed(4);
+        slide.style.transform = `translate3d(0,${ty.toFixed(2)}px,0) scale(${scale.toFixed(4)})`;
+        slide.style.pointerEvents = opacity > 0.1 ? 'auto' : 'none';
+      });
+
+      // Active section calculation
+      const activeIdx = Math.min(Math.round(smoothProgress * (N - 1)), N - 1);
+      navBtns.forEach((btn, i) => btn.classList.toggle('active', i === activeIdx));
+      mobileNavBtns.forEach((btn, i) => btn.classList.toggle('text-primary', i === activeIdx));
+      sideDots.forEach((dot, i) => dot.classList.toggle('active', i === activeIdx));
+
+      // Real-time HUD view counter update
+      if (hudCounter) {
+        hudCounter.textContent = `VIEW 0${activeIdx + 1} / 0${N}`;
+      }
+
+      // Trigger stat count-up numbers when on Impact slide
+      if (activeIdx === 1) {
+        triggerCounters();
+      }
+
+      // Micro-pixel 3D particle constellation rotation & parallax
+      if (window._threeParticles) {
+        window._threeParticles.rotation.y = smoothProgress * Math.PI * 2.2;
+        window._threeParticles.rotation.x = smoothProgress * Math.PI * 0.5;
+      }
+
+      requestAnimationFrame(renderFrame);
+    }
+
+    requestAnimationFrame(renderFrame);
+
+    // Smooth Jump to Slide
+    function jumpToSlide(index) {
+      const scrollable = pinnedWrapper.offsetHeight - window.innerHeight;
+      const targetScroll = pinnedWrapper.offsetTop + (index / (N - 1)) * scrollable;
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    }
+
+    // Bind tab clicks & dot triggers
+    document.querySelectorAll('[data-view]').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const idx = parseInt(trigger.getAttribute('data-view') || '0', 10);
+        jumpToSlide(idx);
+
+        // Close mobile drawer if open
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+          document.getElementById('menu-icon')?.classList.remove('hidden');
+          document.getElementById('close-icon')?.classList.add('hidden');
+        }
+      });
     });
 
-    // Update Nav links
-    navBtns.forEach((btn, i) => btn.classList.toggle('active', i === currentView));
-    mobileNavBtns.forEach((btn, i) => btn.classList.toggle('text-primary', i === currentView));
-
-    // Update Side indicator dots
-    sideDots.forEach((dot, i) => dot.classList.toggle('active', i === currentView));
-
-    // Update HUD counter
-    if (hudCounter) {
-      hudCounter.textContent = `VIEW 0${currentView + 1} / 0${panels.length}`;
+    // Hero scroll button
+    const heroScrollBtn = document.getElementById('hero-scroll-btn');
+    if (heroScrollBtn) {
+      heroScrollBtn.addEventListener('click', () => jumpToSlide(1));
     }
 
-    // Trigger Stat Counters when entering Impact View (index 1)
-    if (currentView === 1) {
-      triggerCounters();
-    }
-
-    // Animate Three.js particles
-    if (window._threeParticles) {
-      const targetRotationY = currentView * (Math.PI * 0.45);
-      const targetRotationX = (currentView % 2 === 0 ? 1 : -1) * (currentView * 0.15);
-
-      if (window._threeCamera) {
-        window._threeCamera.position.z = 5 + (currentView * 0.3);
-      }
-
-      window._threeTargetRotY = targetRotationY;
-      window._threeTargetRotX = targetRotationX;
-    }
-  }
-
-  // Bind view switch triggers ([data-view])
-  document.querySelectorAll('[data-view]').forEach(trigger => {
-    trigger.addEventListener('click', (e) => {
-      const idx = parseInt(trigger.getAttribute('data-view') || '0', 10);
-      switchView(idx);
-
-      // Close mobile menu if open
-      const mobileMenu = document.getElementById('mobile-menu');
-      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-        mobileMenu.classList.add('hidden');
-        document.getElementById('menu-icon')?.classList.remove('hidden');
-        document.getElementById('close-icon')?.classList.add('hidden');
+    // Keyboard navigation (Arrow keys / W & S)
+    window.addEventListener('keydown', (e) => {
+      if (document.getElementById('gallery-lightbox')?.classList.contains('active')) return;
+      const currentIdx = Math.round(smoothProgress * (N - 1));
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key.toLowerCase() === 's') {
+        jumpToSlide(Math.min(N - 1, currentIdx + 1));
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || e.key.toLowerCase() === 'w') {
+        jumpToSlide(Math.max(0, currentIdx - 1));
       }
     });
-  });
-
-  // Hero Scroll Caret Click
-  const heroScrollBtn = document.getElementById('hero-scroll-btn');
-  if (heroScrollBtn) {
-    heroScrollBtn.addEventListener('click', () => switchView(1));
   }
-
-  // Mouse Wheel Navigation (Throttled)
-  let lastWheelTime = 0;
-  window.addEventListener('wheel', (e) => {
-    // Prevent wheel view switch if user is scrolling inside an expanded card
-    const activePanel = panels[currentView];
-    if (activePanel && activePanel.scrollHeight > activePanel.clientHeight) {
-      const scrollTop = activePanel.scrollTop;
-      const maxScroll = activePanel.scrollHeight - activePanel.clientHeight;
-      if (e.deltaY > 0 && scrollTop < maxScroll - 5) return; // scroll internal panel down
-      if (e.deltaY < 0 && scrollTop > 5) return;            // scroll internal panel up
-    }
-
-    const now = Date.now();
-    if (now - lastWheelTime < 500) return; // Throttling threshold
-
-    if (Math.abs(e.deltaY) > 20) {
-      lastWheelTime = now;
-      if (e.deltaY > 0) {
-        switchView(currentView + 1);
-      } else {
-        switchView(currentView - 1);
-      }
-    }
-  }, { passive: true });
-
-  // Keyboard Navigation (Arrow Keys / W & S)
-  window.addEventListener('keydown', (e) => {
-    if (document.getElementById('gallery-lightbox')?.classList.contains('active')) return;
-
-    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key.toLowerCase() === 's') {
-      switchView(currentView + 1);
-    } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || e.key.toLowerCase() === 'w') {
-      switchView(currentView - 1);
-    }
-  });
-
-  // Touch Swipe Navigation for mobile
-  let touchStartY = 0;
-  let touchEndY = 0;
-
-  window.addEventListener('touchstart', (e) => {
-    touchStartY = e.changedTouches[0].screenY;
-  }, { passive: true });
-
-  window.addEventListener('touchend', (e) => {
-    touchEndY = e.changedTouches[0].screenY;
-    const diffY = touchEndY - touchStartY;
-    if (Math.abs(diffY) > 50) {
-      if (diffY < 0) {
-        switchView(currentView + 1); // Swipe up -> next view
-      } else {
-        switchView(currentView - 1); // Swipe down -> prev view
-      }
-    }
-  }, { passive: true });
 
   // ============================================================
   // THREE.JS — Interactive 3D Particle Constellation
@@ -165,9 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroCanvas && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(72, window.innerWidth / window.innerHeight, 0.1, 1000);
-    window._threeCamera = camera;
-
     const renderer = new THREE.WebGLRenderer({ canvas: heroCanvas, alpha: true, antialias: true });
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -196,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     scene.add(particles);
     window._threeParticles = particles;
 
-    // Accent cloud
+    // Accent secondary cloud
     const geo2 = new THREE.BufferGeometry();
     const pos2 = new Float32Array(90 * 3);
     for (let i = 0; i < 90 * 3; i += 3) {
@@ -234,13 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
     (function animateThree() {
       requestAnimationFrame(animateThree);
       particles.rotation.z += 0.0004;
-
-      if (window._threeTargetRotY !== undefined) {
-        particles.rotation.y += (window._threeTargetRotY - particles.rotation.y) * 0.04;
-      }
-      if (window._threeTargetRotX !== undefined) {
-        particles.rotation.x += (window._threeTargetRotX - particles.rotation.x) * 0.04;
-      }
 
       camX += (mx - camX) * 0.05;
       camY += (-my - camY) * 0.05;
@@ -356,6 +340,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowLeft')  openLb(cur - 1);
   });
 
-  // Initialize View 0
-  switchView(0);
 });

@@ -365,17 +365,28 @@ ul { list-style: none; }
 }
 
 /* ============================================================
-   SINGLE VIEWPORT STAGE & VIEW PANELS
+   PINNED VIEWPORT STAGE & CONTENT SLIDES
    ============================================================ */
-.viewport-stage {
+.pinned-viewport-wrapper {
   position: relative;
+  width: 100%;
+}
+
+.pinned-viewport {
+  position: sticky;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
 
-.view-panel {
+.content-slide {
   position: absolute;
   inset: 0;
   display: flex;
@@ -383,38 +394,13 @@ ul { list-style: none; }
   align-items: center;
   justify-content: center;
   opacity: 0;
-  visibility: hidden;
-  transform: translate3d(0, 45px, 0) scale(0.96);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.5s step-end;
+  transform: translate3d(0, 60px, 0) scale(0.94);
   pointer-events: none;
-  padding: clamp(4.5rem, 10vh, 6.5rem) 1.25rem clamp(2.5rem, 6vh, 3.5rem);
+  will-change: opacity, transform;
+  padding: clamp(5rem, 11vh, 7rem) 1.25rem clamp(2.5rem, 6vh, 3.5rem);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  will-change: opacity, transform;
-  z-index: 10;
-}
-
-.view-panel.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translate3d(0, 0, 0) scale(1);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0s step-start;
-  pointer-events: auto;
   z-index: 20;
-}
-
-.view-panel.prev {
-  transform: translate3d(0, -45px, 0) scale(0.96);
-  opacity: 0;
-}
-
-.view-panel.next {
-  transform: translate3d(0, 45px, 0) scale(0.96);
-  opacity: 0;
 }
 
 /* ============================================================
