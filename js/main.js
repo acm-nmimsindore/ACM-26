@@ -259,12 +259,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Also trigger counters via IntersectionObserver for non-pinned pages
-  const statSection = document.querySelector('.stats-section');
-  if (statSection) {
-    new IntersectionObserver((entries, obs) => {
-      if (entries[0].isIntersecting) { triggerCounters(); obs.disconnect(); }
-    }, { threshold: 0.3 }).observe(statSection);
+  // Also trigger counters via IntersectionObserver for all viewports/pages
+  const firstCountEl = document.querySelector('[data-count]');
+  if (firstCountEl) {
+    const targetObs = firstCountEl.closest('.content-slide') || firstCountEl.closest('.stat-card') || firstCountEl.parentElement;
+    if (targetObs) {
+      new IntersectionObserver((entries, obs) => {
+        if (entries[0].isIntersecting) { triggerCounters(); obs.disconnect(); }
+      }, { threshold: 0.15 }).observe(targetObs);
+    }
   }
 
   // ============================================================
@@ -285,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ============================================================
-  // GALLERY LIGHTBOX MODAL (With Touch Swipe Support)
+  // GALLERY LIGHTBOX MODAL (With Touch Swipe & Keyboard Support)
   // ============================================================
   const modal      = document.getElementById('gallery-lightbox');
   const lbImg      = document.getElementById('lightbox-img');
@@ -311,7 +314,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   }
 
-  items.forEach((item, idx) => item.addEventListener('click', () => openLb(idx)));
+  items.forEach((item, idx) => {
+    item.addEventListener('click', () => openLb(idx));
+    item.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLb(idx);
+      }
+    });
+  });
   lbClose?.addEventListener('click', e => { e.stopPropagation(); closeLb(); });
   lbPrev?.addEventListener('click',  e => { e.stopPropagation(); openLb(cur - 1); });
   lbNext?.addEventListener('click',  e => { e.stopPropagation(); openLb(cur + 1); });
