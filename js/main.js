@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Real-time HUD view counter update
       if (hudCounter) {
-        hudCounter.textContent = `VIEW 0${activeIdx + 1} / 0${N}`;
+        hudCounter.textContent = `SECTION 0${activeIdx + 1} / 0${N}`;
       }
 
       // Trigger stat count-up numbers when on Impact slide
