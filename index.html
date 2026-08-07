@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ACM NMIMS Indore — Official Student Chapter</title>
-  <meta name="description" content="The official ACM student chapter at NMIMS Indore. Advancing computing as a science and profession through hackathons, research, and innovation.">
+  <meta name="description"
+    content="The official ACM student chapter at NMIMS Indore. Advancing computing as a science and profession through hackathons, research, AI symposiums, and open-source innovation.">
   <meta property="og:title" content="ACM NMIMS Indore — Official Student Chapter">
   <meta property="og:description" content="Advancing computing as a science and profession at NMIMS Indore.">
   <meta name="theme-color" content="#e11d48">
@@ -22,534 +24,1043 @@
             muted: { foreground: '#a8a6b4' }
           },
           fontFamily: {
-            sans: ['Inter','sans-serif'],
-            mono: ['JetBrains Mono','monospace'],
-            display: ['Space Grotesk','sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            display: ['Space Grotesk', 'sans-serif'],
           }
         }
       }
     }
   </script>
 
-  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/lucide@latest" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <style>
-    header[data-scrolled] {
-      background: rgba(8,8,16,0.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 4px 40px rgba(0,0,0,0.5);
-    }
-    header { transition: background 0.3s, box-shadow 0.3s, padding 0.3s; }
-  </style>
 </head>
-<body class="bg-bg text-text min-h-screen overflow-x-hidden">
+
+<body class="overflow-x-hidden">
+
+  <!-- Global fixed 3D canvas — persists behind every section -->
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
   <!-- ============================================================
-       HEADER (FIXED TOP NAV)
+       FIXED HEADER
        ============================================================ -->
-  <header class="fixed top-0 inset-x-0 z-50 py-4" data-scrolled="1">
-    <div class="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between">
+  <header id="site-header">
+    <div class="header-inner">
 
       <a href="index.html" class="flex items-center gap-3 z-50">
         <div class="logo-box">
-          <img src="assets/acm_logo_white_bg.png" alt="ACM NMIMS" class="h-7 sm:h-8 w-auto">
+          <img src="assets/acm_logo_white_bg.png" alt="ACM NMIMS Indore" class="h-7 sm:h-8 w-auto">
         </div>
         <div class="hidden sm:flex flex-col leading-tight">
-          <span style="font-family:'Space Grotesk',sans-serif" class="font-bold text-sm sm:text-base tracking-tight text-white">ACM NMIMS</span>
-          <span class="text-[9px] tracking-[0.18em] uppercase" style="font-family:'JetBrains Mono',monospace;color:#a8a6b4">Student Chapter · Indore</span>
+          <span class="font-bold text-sm sm:text-base tracking-tight text-white"
+            style="font-family:'Space Grotesk',sans-serif">ACM NMIMS</span>
+          <span class="text-[9px] tracking-[0.18em] uppercase"
+            style="font-family:'JetBrains Mono',monospace;color:#a8a6b4">Student Chapter · Indore</span>
         </div>
       </a>
 
-      <!-- Desktop nav tabs -->
-      <nav class="hidden lg:flex items-center gap-7">
-        <ul class="flex items-center gap-5" id="header-nav-list">
-          <li><button data-view="0" class="nav-link active">Home</button></li>
-          <li><button data-view="1" class="nav-link">Impact</button></li>
-          <li><button data-view="2" class="nav-link">Objectives</button></li>
-          <li><button data-view="3" class="nav-link">Missions</button></li>
-          <li><button data-view="4" class="nav-link">Team</button></li>
-          <li><button data-view="5" class="nav-link">Gallery</button></li>
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-6">
+        <ul class="flex items-center gap-6 text-xs" id="desktop-nav">
+          <li><a href="events.html" class="nav-link" data-section="events">Events</a></li>
+          <li><a href="#team" class="nav-link" data-section="team">Team</a></li>
+          <li><a href="gallery.html" class="nav-link" data-section="gallery">Gallery</a></li>
         </ul>
         <div class="flex items-center gap-3">
           <a href="https://nmimsindore.acm.org:2096/" target="_blank" rel="noreferrer"
-             style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#6b6a78"
-             class="hover:text-white transition-colors">[ Login ]</a>
+            class="hover:text-white transition-colors"
+            style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:#6b6a78">[ Login ]</a>
           <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
-             class="btn-primary font-display text-xs tracking-wide">
+            class="btn-primary font-display text-xs tracking-wide">
             Join <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
           </a>
         </div>
       </nav>
 
-      <!-- Mobile menu button -->
+      <!-- Mobile toggle -->
       <button id="mobile-menu-btn" class="lg:hidden z-50 text-white p-1.5" aria-label="Toggle menu">
-        <i id="menu-icon"  data-lucide="menu" class="w-6 h-6"></i>
-        <i id="close-icon" data-lucide="x"    class="w-6 h-6 hidden"></i>
+        <i id="menu-icon" data-lucide="menu" class="w-6 h-6"></i>
+        <i id="close-icon" data-lucide="x" class="w-6 h-6 hidden"></i>
       </button>
 
       <!-- Mobile drawer -->
-      <div id="mobile-menu" class="hidden fixed inset-0 z-40 flex flex-col items-center justify-center gap-6">
-        <ul class="flex flex-col items-center gap-4 text-center">
-          <li><button data-view="0" class="text-2xl font-display font-bold text-primary mobile-nav-btn">Home</button></li>
-          <li><button data-view="1" class="text-2xl font-display font-bold text-white hover:text-primary mobile-nav-btn">Impact</button></li>
-          <li><button data-view="2" class="text-2xl font-display font-bold text-white hover:text-primary mobile-nav-btn">Objectives</button></li>
-          <li><button data-view="3" class="text-2xl font-display font-bold text-white hover:text-primary mobile-nav-btn">Missions</button></li>
-          <li><button data-view="4" class="text-2xl font-display font-bold text-white hover:text-primary mobile-nav-btn">Team</button></li>
-          <li><button data-view="5" class="text-2xl font-display font-bold text-white hover:text-primary mobile-nav-btn">Gallery</button></li>
+      <div id="mobile-menu" class="hidden fixed inset-0 z-40 flex flex-col items-center justify-center gap-4">
+        <ul class="flex flex-col items-center gap-5 text-center">
+          <li><a href="events.html" class="mob-nav-link">Events</a></li>
+          <li><a href="#team" class="mob-nav-link">Team</a></li>
+          <li><a href="gallery.html" class="mob-nav-link">Gallery</a></li>
         </ul>
-        <div class="flex flex-col items-center gap-3 mt-2">
-          <a href="https://nmimsindore.acm.org:2096/" target="_blank" rel="noreferrer"
-             class="font-mono text-xs" style="color:#6b6a78">Member Login</a>
+        <div class="flex flex-col items-center gap-3 mt-4">
+          <a href="https://nmimsindore.acm.org:2096/" target="_blank" rel="noreferrer" class="font-mono text-xs"
+            style="color:#6b6a78">Member Login</a>
           <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
-             class="btn-primary text-sm px-8 py-3">Join The Chapter</a>
+            class="btn-primary text-sm px-8 py-3.5">Join The Chapter</a>
         </div>
       </div>
     </div>
+
+    <!-- Scroll progress bar -->
+    <div id="scroll-progress"></div>
   </header>
 
   <!-- ============================================================
-       SIDE VIEW INDICATOR DOTS
+       SECTION 01 · HERO
        ============================================================ -->
-  <div class="slide-indicator hidden md:flex" aria-label="Section indicators" id="side-indicator-container">
-    <button class="indicator-dot active" data-view="0" title="Home"></button>
-    <button class="indicator-dot" data-view="1" title="Impact Metrics"></button>
-    <button class="indicator-dot" data-view="2" title="Core Objectives"></button>
-    <button class="indicator-dot" data-view="3" title="Flagship Events"></button>
-    <button class="indicator-dot" data-view="4" title="Executive Leadership"></button>
-    <button class="indicator-dot" data-view="5" title="Photo Gallery"></button>
-  </div>
+  <section id="hero" class="hero-section">
 
-  <!-- ============================================================
-       MAIN STICKY STAGE WITH 800vh MICRO-SCROLL WRAPPER
-       ============================================================ -->
-  <main class="flex-grow">
-    <div id="pinned-wrapper" class="pinned-viewport-wrapper" style="min-height:800vh">
-      <div class="pinned-viewport">
-
-        <!-- 3D Canvas Background -->
-        <canvas id="hero-canvas"></canvas>
-
-        <!-- Background Layering -->
-        <div class="absolute inset-0 pointer-events-none z-0">
-          <div class="absolute inset-0 bg-grid vignette-top"></div>
-          <div class="glow-orb absolute top-1/3 left-1/4 w-[32rem] h-[32rem]"
-               style="background:rgba(225,29,72,0.16);animation-duration:14s"></div>
-          <div class="glow-orb-2 absolute bottom-1/4 right-1/4 w-[26rem] h-[26rem]"
-               style="background:rgba(225,29,72,0.1);animation-duration:18s"></div>
-          <div class="absolute inset-0 bg-dots" style="opacity:0.18"></div>
-        </div>
-
-        <!-- ─── SLIDE 01: HERO BRIEFING ─── -->
-        <div class="content-slide z-20 text-center">
-          <div class="max-w-4xl mx-auto w-full px-4 sm:px-6">
-
-            <div class="pill mb-4 sm:mb-6 mx-auto w-fit">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-              <span>ACM NMIMS INDORE</span>
-            </div>
-
-            <h1 class="section-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl mb-4 sm:mb-6"
-                style="letter-spacing:-0.03em;line-height:1.1">
-              Advancing <span class="text-gradient">Computing</span><br class="hidden md:inline">
-              as a Science &amp; Profession.
-            </h1>
-
-            <p class="font-mono text-xs sm:text-sm md:text-base max-w-xl mx-auto mb-6 sm:mb-8 leading-relaxed"
-               style="color:#a8a6b4">
-              The official student chapter of the world's largest educational and scientific
-              computing society — at NMIMS Indore.
-            </p>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md sm:max-w-none mx-auto mb-6">
-              <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
-                 class="btn-primary text-xs sm:text-sm px-7 py-3.5 w-full sm:w-auto font-display">
-                Join The Chapter <i data-lucide="arrow-right" class="w-4 h-4"></i>
-              </a>
-              <button data-view="3" class="btn-ghost text-xs sm:text-sm px-7 py-3.5 w-full sm:w-auto">
-                Explore Events
-              </button>
-            </div>
-
-            <div class="scroll-caret flex flex-col items-center gap-1.5 cursor-pointer" id="hero-scroll-btn" style="color:#6b6a78">
-              <span class="font-mono text-[9px] sm:text-[10px] tracking-widest uppercase">Scroll down to explore</span>
-              <i data-lucide="chevron-down" class="w-4 h-4"></i>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ─── SLIDE 02: IMPACT METRICS ─── -->
-        <div class="content-slide z-20 text-center">
-          <div class="max-w-4xl mx-auto w-full px-4 sm:px-6">
-
-            <div class="pill mb-4 sm:mb-6 mx-auto w-fit">
-              <i data-lucide="activity" class="w-3.5 h-3.5"></i>
-              <span>IMPACT METRICS</span>
-            </div>
-
-            <h2 class="section-heading text-2xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 sm:mb-8">
-              Our Chapter <span class="text-gradient">by the Numbers</span>
-            </h2>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
-              <div class="stat-card">
-                <div class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-1">
-                  <span data-count="500">0</span><span class="text-primary">+</span>
-                </div>
-                <div class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase" style="color:#e11d48">Active Members</div>
-              </div>
-              <div class="stat-card">
-                <div class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-1">
-                  <span data-count="15">0</span><span class="text-primary">+</span>
-                </div>
-                <div class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase" style="color:#e11d48">Flagship Events</div>
-              </div>
-              <div class="stat-card">
-                <div class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-1">
-                  <span data-count="4">0</span>
-                </div>
-                <div class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase" style="color:#e11d48">Faculty Mentors</div>
-              </div>
-              <div class="stat-card">
-                <div class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-white mb-1">
-                  <span data-count="15">0</span><span class="text-primary">+</span>
-                </div>
-                <div class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase" style="color:#e11d48">Domain Leads</div>
-              </div>
-            </div>
-
-            <p class="font-mono text-xs max-w-lg mx-auto leading-relaxed" style="color:#6b6a78">
-              Fostering innovation across research, web development, AI, cybersecurity, and algorithms.
-            </p>
-
-          </div>
-        </div>
-
-        <!-- ─── SLIDE 03: CORE OBJECTIVES ─── -->
-        <div class="content-slide z-20">
-          <div class="max-w-5xl mx-auto w-full px-4 sm:px-6">
-
-            <div class="pill mb-4 mx-auto w-fit">
-              <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
-              <span>CORE OBJECTIVES</span>
-            </div>
-
-            <h2 class="section-heading text-3xl sm:text-5xl mb-8 text-center">
-              Empowering <span class="text-gradient">Tech Leaders</span>
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-              <div class="glass-card p-5 sm:p-6">
-                <div class="icon-badge mb-4">
-                  <i data-lucide="zap" class="w-5 h-5"></i>
-                </div>
-                <h3 class="font-display font-bold text-lg text-white mb-2">Coding Culture</h3>
-                <p class="font-mono text-xs leading-relaxed" style="color:#a8a6b4">
-                  Hackathons, competitive contests, and technical workshops designed to sharpen real-world software engineering skills.
-                </p>
-              </div>
-
-              <div class="glass-card p-5 sm:p-6">
-                <div class="icon-badge mb-4">
-                  <i data-lucide="users" class="w-5 h-5"></i>
-                </div>
-                <h3 class="font-display font-bold text-lg text-white mb-2">Global Network</h3>
-                <p class="font-mono text-xs leading-relaxed" style="color:#a8a6b4">
-                  Direct access to ACM's international research journals, expert keynotes, and inter-chapter collaborations.
-                </p>
-              </div>
-
-              <div class="glass-card p-5 sm:p-6">
-                <div class="icon-badge mb-4">
-                  <i data-lucide="globe" class="w-5 h-5"></i>
-                </div>
-                <h3 class="font-display font-bold text-lg text-white mb-2">ACM-W Initiative</h3>
-                <p class="font-mono text-xs leading-relaxed" style="color:#a8a6b4">
-                  Dedicated sub-chapter promoting diversity and empowering women in computing through mentorship circles.
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ─── SLIDE 04: ACTIVE MISSIONS & EVENTS ─── -->
-        <div class="content-slide z-20">
-          <div class="max-w-5xl mx-auto w-full px-4 sm:px-6">
-
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
-              <div>
-                <div class="pill mb-3 w-fit">
-                  <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-                  <span>UPCOMING SCHEDULE</span>
-                </div>
-                <h2 class="section-heading text-3xl sm:text-5xl">
-                  Flagship <span class="text-gradient">Events</span>
-                </h2>
-              </div>
-              <button data-view="5" class="font-mono text-xs flex items-center gap-1.5 shrink-0" style="color:#e11d48">
-                View Gallery <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-              <div class="event-card">
-                <div class="flex flex-wrap items-start justify-between gap-2 mb-2.5">
-                  <div class="flex items-center gap-2">
-                    <div class="icon-badge" style="width:2rem;height:2rem">
-                      <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-base sm:text-lg text-white">HackACM 3.0</h3>
-                  </div>
-                  <span class="tag-primary font-mono text-[10px] px-2.5 py-1 rounded-full">TBA 2026</span>
-                </div>
-                <p class="event-brief font-mono text-xs leading-relaxed line-clamp-2 mb-3" style="color:#a8a6b4">
-                  The third edition of ACM NMIMS' flagship 24-hour hackathon. Open to all students with tracks in AI/ML, Web3, and Sustainability with ₹1L+ prizes.
-                </p>
-                <div class="flex items-center justify-between gap-3 flex-wrap">
-                  <div class="flex flex-wrap gap-1.5">
-                    <span class="tag">Hackathon</span>
-                    <span class="tag">AI/ML</span>
-                  </div>
-                  <button class="toggle-brief-btn font-mono text-[10px] flex items-center gap-1 transition-colors hover:text-white" style="color:#e11d48">
-                    <span class="btn-text">Read Full Brief</span>
-                    <i data-lucide="chevron-down" class="w-3 h-3 btn-icon transition-transform"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div class="event-card">
-                <div class="flex flex-wrap items-start justify-between gap-2 mb-2.5">
-                  <div class="flex items-center gap-2">
-                    <div class="icon-badge" style="width:2rem;height:2rem">
-                      <i data-lucide="users" class="w-3.5 h-3.5"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-base sm:text-lg text-white">CodeSprint '26</h3>
-                  </div>
-                  <span class="tag-primary font-mono text-[10px] px-2.5 py-1 rounded-full">Feb 2026</span>
-                </div>
-                <p class="event-brief font-mono text-xs leading-relaxed line-clamp-2 mb-3" style="color:#a8a6b4">
-                  Competitive programming sprint covering algorithms, dynamic programming, graphs, and system design challenges across 3 escalating rounds.
-                </p>
-                <div class="flex items-center justify-between gap-3 flex-wrap">
-                  <div class="flex flex-wrap gap-1.5">
-                    <span class="tag">Competitive</span>
-                    <span class="tag">DSA</span>
-                  </div>
-                  <button class="toggle-brief-btn font-mono text-[10px] flex items-center gap-1 transition-colors hover:text-white" style="color:#e11d48">
-                    <span class="btn-text">Read Full Brief</span>
-                    <i data-lucide="chevron-down" class="w-3 h-3 btn-icon transition-transform"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div class="event-card">
-                <div class="flex flex-wrap items-start justify-between gap-2 mb-2.5">
-                  <div class="flex items-center gap-2">
-                    <div class="icon-badge" style="width:2rem;height:2rem">
-                      <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-base sm:text-lg text-white">AI Symposium</h3>
-                  </div>
-                  <span class="tag-primary font-mono text-[10px] px-2.5 py-1 rounded-full">Mar 2026</span>
-                </div>
-                <p class="event-brief font-mono text-xs leading-relaxed line-clamp-2 mb-3" style="color:#a8a6b4">
-                  Full-day symposium on Artificial Intelligence featuring industry keynotes on LLMs, computer vision, autonomous systems, and student paper showcases.
-                </p>
-                <div class="flex items-center justify-between gap-3 flex-wrap">
-                  <div class="flex flex-wrap gap-1.5">
-                    <span class="tag">AI/ML</span>
-                    <span class="tag">Keynote</span>
-                  </div>
-                  <button class="toggle-brief-btn font-mono text-[10px] flex items-center gap-1 transition-colors hover:text-white" style="color:#e11d48">
-                    <span class="btn-text">Read Full Brief</span>
-                    <i data-lucide="chevron-down" class="w-3 h-3 btn-icon transition-transform"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div class="event-card">
-                <div class="flex flex-wrap items-start justify-between gap-2 mb-2.5">
-                  <div class="flex items-center gap-2">
-                    <div class="icon-badge" style="width:2rem;height:2rem">
-                      <i data-lucide="heart" class="w-3.5 h-3.5"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-base sm:text-lg text-white">ACM-W Summit</h3>
-                  </div>
-                  <span class="tag-primary font-mono text-[10px] px-2.5 py-1 rounded-full">Apr 2026</span>
-                </div>
-                <p class="event-brief font-mono text-xs leading-relaxed line-clamp-2 mb-3" style="color:#a8a6b4">
-                  Flagship event of the ACM-W sub-chapter. Panel discussions, mentorship circles, and coding bootcamps to bridge the gender gap in computing.
-                </p>
-                <div class="flex items-center justify-between gap-3 flex-wrap">
-                  <div class="flex flex-wrap gap-1.5">
-                    <span class="tag">ACM-W</span>
-                    <span class="tag">Panels</span>
-                  </div>
-                  <button class="toggle-brief-btn font-mono text-[10px] flex items-center gap-1 transition-colors hover:text-white" style="color:#e11d48">
-                    <span class="btn-text">Read Full Brief</span>
-                    <i data-lucide="chevron-down" class="w-3 h-3 btn-icon transition-transform"></i>
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- ─── SLIDE 05: FACULTY & CORE TEAM ─── -->
-        <div class="content-slide z-20">
-          <div class="max-w-5xl mx-auto w-full px-4 sm:px-6 text-center">
-
-            <div class="pill mb-3 mx-auto w-fit">
-              <i data-lucide="users-round" class="w-3.5 h-3.5"></i>
-              <span>EXECUTIVE LEADERSHIP</span>
-            </div>
-
-            <h2 class="section-heading text-3xl sm:text-5xl mb-6">
-              The <span class="text-gradient">People</span> Behind the Chapter
-            </h2>
-
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4">
-              <div class="member-card tilt-card">
-                <div class="avatar-placeholder">FA</div>
-                <div class="member-card-overlay"></div>
-                <div class="member-card-info">
-                  <div class="member-card-role mb-0.5">Faculty Advisor</div>
-                  <div class="member-card-name">Dr. [Faculty Advisor]</div>
-                </div>
-              </div>
-
-              <div class="member-card tilt-card">
-                <div class="avatar-placeholder">PR</div>
-                <div class="member-card-overlay"></div>
-                <div class="member-card-info">
-                  <div class="member-card-role mb-0.5">President</div>
-                  <div class="member-card-name">[Member Name]</div>
-                </div>
-              </div>
-
-              <div class="member-card tilt-card">
-                <div class="avatar-placeholder">VP</div>
-                <div class="member-card-overlay"></div>
-                <div class="member-card-info">
-                  <div class="member-card-role mb-0.5">Vice President</div>
-                  <div class="member-card-name">[Member Name]</div>
-                </div>
-              </div>
-
-              <div class="member-card tilt-card">
-                <div class="avatar-placeholder" style="color:rgba(244,63,94,0.9)">WC</div>
-                <div class="member-card-overlay"></div>
-                <div class="member-card-info">
-                  <div class="member-card-role mb-0.5" style="color:#f43f5e">ACM-W Chair</div>
-                  <div class="member-card-name">[Member Name]</div>
-                </div>
-              </div>
-            </div>
-
-            <a href="team.html" class="inline-flex items-center gap-2 font-mono text-xs transition-colors hover:text-white" style="color:#e11d48">
-              View Complete Executive &amp; Domain Roster <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </a>
-
-          </div>
-        </div>
-
-        <!-- ─── SLIDE 06: PHOTO GALLERY ─── -->
-        <div class="content-slide z-20 text-center">
-          <div class="max-w-5xl mx-auto w-full px-4 sm:px-6">
-
-            <div class="pill mb-3 mx-auto w-fit">
-              <i data-lucide="image" class="w-3.5 h-3.5"></i>
-              <span>CHAPTER SNAPSHOTS</span>
-            </div>
-
-            <h2 class="section-heading text-3xl sm:text-5xl mb-6">
-              Chapter <span class="text-gradient">Moments</span>
-            </h2>
-
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-              <div class="gallery-item" data-lightbox-src="assets/acm_gallery.png" role="button" tabindex="0" aria-label="Gallery image 1">
-                <img src="assets/acm_gallery.png" alt="ACM-W Launch: Opening Ceremony" class="rounded h-32 sm:h-36 w-full object-cover">
-                <div class="gallery-overlay rounded"><i data-lucide="zoom-in" class="w-6 h-6 text-white"></i></div>
-              </div>
-
-              <div class="gallery-item" data-lightbox-src="assets/acm_events.png" role="button" tabindex="0" aria-label="Gallery image 2">
-                <img src="assets/acm_events.png" alt="ACM Events Showcase" class="rounded h-32 sm:h-36 w-full object-cover">
-                <div class="gallery-overlay rounded"><i data-lucide="zoom-in" class="w-6 h-6 text-white"></i></div>
-              </div>
-
-              <div class="gallery-item" data-lightbox-src="assets/generated_images/speaker-session.jpg" role="button" tabindex="0" aria-label="Gallery image 3">
-                <img src="assets/generated_images/speaker-session.jpg" alt="Speaker Session" class="rounded h-32 sm:h-36 w-full object-cover">
-                <div class="gallery-overlay rounded"><i data-lucide="zoom-in" class="w-6 h-6 text-white"></i></div>
-              </div>
-
-              <div class="gallery-item" data-lightbox-src="assets/generated_images/tech-jenga.jpg" role="button" tabindex="0" aria-label="Gallery image 4">
-                <img src="assets/generated_images/tech-jenga.jpg" alt="Tech Jenga" class="rounded h-32 sm:h-36 w-full object-cover">
-                <div class="gallery-overlay rounded"><i data-lucide="zoom-in" class="w-6 h-6 text-white"></i></div>
-              </div>
-            </div>
-
-            <a href="gallery.html" class="inline-flex items-center gap-2 font-mono text-xs transition-colors hover:text-white" style="color:#e11d48">
-              Open Full Photo Gallery <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </a>
-
-          </div>
-        </div>
-
-      </div><!-- /pinned-viewport -->
-    </div><!-- /pinned-wrapper -->
-  </main>
-
-  <!-- ============================================================
-       LIGHTBOX MODAL
-       ============================================================ -->
-  <div id="gallery-lightbox" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Photo lightbox">
-    <div class="absolute top-4 right-4 sm:top-6 sm:right-6 z-10">
-      <button id="close-lightbox" class="lb-btn" aria-label="Close">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
+    <!-- Background layers -->
+    <div class="hero-bg-layers">
+      <div class="bg-grid vignette-top"></div>
+      <div class="glow-orb"
+        style="top:30%;left:20%;width:34rem;height:34rem;background:rgba(225,29,72,0.14);animation-duration:14s"></div>
+      <div class="glow-orb-2"
+        style="bottom:20%;right:18%;width:28rem;height:28rem;background:rgba(225,29,72,0.09);animation-duration:18s">
+      </div>
+      <div class="bg-dots" style="opacity:0.15;position:absolute;inset:0"></div>
     </div>
-    <div class="absolute top-4 left-1/2 -translate-x-1/2 font-mono text-xs z-10" style="color:#6b6a78">
-      <span id="lightbox-counter">1 / 4</span>
-    </div>
-    <div class="relative flex items-center justify-center gap-6 w-full px-4 sm:px-10">
-      <button id="prev-lightbox" class="lb-btn" aria-label="Previous photo">
-        <i data-lucide="chevron-left" class="w-5 h-5"></i>
-      </button>
-      <img id="lightbox-img" src="" alt="Gallery photo full view"
-           class="flex-1 max-w-[80vw] max-h-[80vh] object-contain rounded-lg">
-      <button id="next-lightbox" class="lb-btn" aria-label="Next photo">
-        <i data-lucide="chevron-right" class="w-5 h-5"></i>
-      </button>
-    </div>
-  </div>
 
-  <!-- ============================================================
-       CYBER HUD FOOTER
-       ============================================================ -->
-  <footer class="hud-footer">
-    <div class="flex items-center gap-2.5">
-      <span class="hud-pulse-dot"></span>
-      <span class="font-semibold text-white tracking-wider">ACM NMIMS INDORE</span>
-      <span class="hidden sm:inline" style="color:#6b6a78">| STUDENT CHAPTER</span>
+    <!-- Hero Content -->
+    <div class="hero-content">
+
+      <div class="pill mb-6 mx-auto w-fit animate-fade-in">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>ACM NMIMS INDORE STUDENT CHAPTER</span>
+      </div>
+
+      <h1 class="section-heading hero-headline animate-fade-up">
+        Advancing <span class="text-gradient">Computing</span><br>
+        as a Science &amp;<br class="hidden md:inline"> Profession.
+      </h1>
+
+      <p class="hero-sub animate-fade-up" style="animation-delay:0.15s">
+        The official student chapter of the world's largest educational and scientific
+        computing society — powering hackathons, AI research, cybersecurity, and open-source innovation at NMIMS Indore.
+      </p>
+
+      <!-- Live Ticker -->
+      <div class="hero-ticker animate-fade-up" style="animation-delay:0.25s">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber-400/80"></span>
+          <span class="text-white/90 font-medium">No Active Events Right Now · Stay Tuned</span>
+        </div>
+        <span class="ticker-sep">|</span>
+        <div class="flex items-center gap-1.5 text-primary">
+          <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+          <span>ACM Global Charter</span>
+        </div>
+        <span class="ticker-sep">|</span>
+        <div class="text-white/80">500+ Active Coders</div>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="hero-ctas animate-fade-up" style="animation-delay:0.35s">
+        <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
+          class="btn-primary text-sm sm:text-base px-8 py-4 font-display">
+          Join The Chapter <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="#events" class="btn-ghost text-sm sm:text-base px-8 py-4">
+          Explore Events
+        </a>
+      </div>
+
+      <!-- Scroll Cue -->
+      <div class="scroll-caret animate-fade-up" style="animation-delay:0.45s;color:#6b6a78">
+        <span class="font-mono text-[10px] tracking-widest uppercase">Scroll to explore</span>
+        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+      </div>
+
     </div>
-    <div class="flex items-center gap-4">
-      <span class="hidden md:inline" style="color:#6b6a78">Association for Computing Machinery</span>
-      <div class="px-2.5 py-0.5 rounded" style="background:rgba(225,29,72,0.15);border:1px solid rgba(225,29,72,0.3);color:#f43f5e">
-        <span id="hud-view-counter">SECTION 01 / 06</span>
+
+    <!-- Horizontal Marquee -->
+    <div class="hero-marquee-wrap">
+      <div class="hero-marquee-track">
+        <span>HACKACM 3.0</span><span class="mx-6 text-primary">·</span>
+        <span>AI SYMPOSIUM</span><span class="mx-6 text-primary">·</span>
+        <span>CODESPRINT '26</span><span class="mx-6 text-primary">·</span>
+        <span>ACM-W SUMMIT</span><span class="mx-6 text-primary">·</span>
+        <span>CYBERSECURITY</span><span class="mx-6 text-primary">·</span>
+        <span>DEEP LEARNING</span><span class="mx-6 text-primary">·</span>
+        <span>OPEN SOURCE</span><span class="mx-6 text-primary">·</span>
+        <span>COMPETITIVE PROGRAMMING</span><span class="mx-6 text-primary">·</span>
+        <span>CLOUD &amp; DEVOPS</span><span class="mx-6 text-primary">·</span>
+        <span>UI/UX &amp; PRODUCT</span><span class="mx-6 text-primary">·</span>
+        <!-- Duplicate for seamless loop -->
+        <span>HACKACM 3.0</span><span class="mx-6 text-primary">·</span>
+        <span>AI SYMPOSIUM</span><span class="mx-6 text-primary">·</span>
+        <span>CODESPRINT '26</span><span class="mx-6 text-primary">·</span>
+        <span>ACM-W SUMMIT</span><span class="mx-6 text-primary">·</span>
+        <span>CYBERSECURITY</span><span class="mx-6 text-primary">·</span>
+        <span>DEEP LEARNING</span><span class="mx-6 text-primary">·</span>
+        <span>OPEN SOURCE</span><span class="mx-6 text-primary">·</span>
+        <span>COMPETITIVE PROGRAMMING</span><span class="mx-6 text-primary">·</span>
+        <span>CLOUD &amp; DEVOPS</span><span class="mx-6 text-primary">·</span>
+        <span>UI/UX &amp; PRODUCT</span><span class="mx-6 text-primary">·</span>
       </div>
     </div>
-  </footer>
+  </section>
 
-  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script src="js/main.js"></script>
-  <script>lucide.createIcons();</script>
+  <!-- ============================================================
+       SECTION 02 · IMPACT ENGINE
+       ============================================================ -->
+  <section id="impact" class="site-section" style="background:rgba(19,19,32,0.4)">
+    <div class="section-inner">
+
+      <div class="text-center mb-14">
+        <div class="pill mb-4 mx-auto w-fit reveal">
+          <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+          <span>CHAPTER IMPACT ENGINE</span>
+        </div>
+        <h2 class="section-heading text-4xl sm:text-5xl md:text-6xl mb-4 reveal">
+          Our Growth <span class="text-gradient">by the Numbers</span>
+        </h2>
+        <p class="font-mono text-sm max-w-xl mx-auto reveal" style="color:#a8a6b4;animation-delay:0.1s">
+          Real data from a community that builds, ships, and competes at the highest level.
+        </p>
+      </div>
+
+      <!-- Counter Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="stat-card reveal">
+          <div class="stat-num"><span class="counter" data-target="500">0</span><span class="text-primary">+</span>
+          </div>
+          <div class="stat-label">Active Members</div>
+          <div class="stat-sub">NMIMS Indore campus</div>
+        </div>
+        <div class="stat-card reveal" style="animation-delay:0.08s">
+          <div class="stat-num"><span class="counter" data-target="15">0</span><span class="text-primary">+</span></div>
+          <div class="stat-label">Flagship Events</div>
+          <div class="stat-sub">Hackathons, AI talks &amp; more</div>
+        </div>
+        <div class="stat-card reveal" style="animation-delay:0.16s">
+          <div class="stat-num"><span class="counter" data-target="1200">0</span><span class="text-primary">+</span>
+          </div>
+          <div class="stat-label">Event Attendees</div>
+          <div class="stat-sub">Across all chapter events</div>
+        </div>
+        <div class="stat-card reveal" style="animation-delay:0.24s">
+          <div class="stat-num"><span class="counter" data-target="12">0</span><span class="text-primary">+</span></div>
+          <div class="stat-label">Open Projects</div>
+          <div class="stat-sub">Student-built &amp; published</div>
+        </div>
+      </div>
+
+      <!-- Secondary Metrics -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="metric-card reveal">
+          <div>
+            <div class="font-display font-bold text-white mb-1">Student Competitions</div>
+            <div class="font-mono text-xs" style="color:#a8a6b4">Hackathons, coding sprints, and hands-on developer
+              challenges.</div>
+          </div>
+        </div>
+        <div class="metric-card reveal" style="animation-delay:0.1s">
+          <div>
+            <div class="font-display font-bold text-white mb-1">ACM Digital Library</div>
+            <div class="font-mono text-xs" style="color:#a8a6b4">Member access to research papers, journals, and
+              keynotes.</div>
+          </div>
+        </div>
+        <div class="metric-card reveal" style="animation-delay:0.2s">
+          <div>
+            <div class="font-display font-bold text-white mb-1">Faculty Mentorship</div>
+            <div class="font-mono text-xs" style="color:#a8a6b4">Guidance from department professors and chapter
+              advisors.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 03 · STRATEGIC PILLARS
+       ============================================================ -->
+  <section id="about" class="site-section">
+    <div class="section-inner">
+
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
+        <div>
+          <div class="pill mb-4 w-fit reveal">
+            <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+            <span>CORE STRATEGIC PILLARS</span>
+          </div>
+          <h2 class="section-heading text-4xl sm:text-5xl reveal">
+            Empowering <span class="text-gradient">Tech Leaders</span>
+          </h2>
+        </div>
+        <p class="font-mono text-sm max-w-xs reveal" style="color:#a8a6b4;animation-delay:0.1s">
+          Four pillars that define how we build engineers, researchers, and industry leaders at NMIMS Indore.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="pillar-card reveal">
+          <div class="pillar-num">01</div>
+          <h3 class="font-display font-bold text-lg text-white mb-3">Coding Culture</h3>
+          <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+            24-hour hackathons, competitive programming sprints, and system design labs to sharpen practical engineering
+            skills.
+          </p>
+          <div class="flex flex-wrap gap-1.5 mt-auto">
+            <span class="tag">Hackathons</span>
+            <span class="tag">DSA</span>
+            <span class="tag">System Design</span>
+          </div>
+        </div>
+
+        <div class="pillar-card reveal" style="animation-delay:0.1s">
+          <div class="pillar-num">02</div>
+          <h3 class="font-display font-bold text-lg text-white mb-3">Community &amp; Inclusion</h3>
+          <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+            Inclusive developer ecosystem bringing together builders across all engineering domains, skill levels, and
+            years.
+          </p>
+          <div class="flex flex-wrap gap-1.5 mt-auto">
+            <span class="tag">Community</span>
+            <span class="tag">Inclusion</span>
+            <span class="tag">Networking</span>
+          </div>
+        </div>
+
+        <div class="pillar-card reveal" style="animation-delay:0.2s">
+          <div class="pillar-num">03</div>
+          <h3 class="font-display font-bold text-lg text-white mb-3">Global Research</h3>
+          <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+            Direct access to ACM's international Digital Library, research journals, and global expert keynote speakers.
+          </p>
+          <div class="flex flex-wrap gap-1.5 mt-auto">
+            <span class="tag">Research</span>
+            <span class="tag">ACM DL</span>
+            <span class="tag">Keynotes</span>
+          </div>
+        </div>
+
+        <div class="pillar-card reveal" style="animation-delay:0.3s">
+          <div class="pillar-num">04</div>
+          <h3 class="font-display font-bold text-lg text-white mb-3">Career Launchpad</h3>
+          <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+            Mock technical interviews, FAANG alumni sessions, and direct referral opportunities for chapter members.
+          </p>
+          <div class="flex flex-wrap gap-1.5 mt-auto">
+            <span class="tag">Interviews</span>
+            <span class="tag">Alumni</span>
+            <span class="tag">Referrals</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- ============================================================
+       SECTION 05 · FLAGSHIP EVENTS
+       ============================================================ -->
+  <section id="events" class="site-section">
+    <div class="section-inner">
+
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
+        <div>
+          <div class="pill mb-4 w-fit reveal">
+            <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+            <span>UPCOMING SCHEDULE 2026</span>
+          </div>
+          <h2 class="section-heading text-4xl sm:text-5xl reveal">
+            Flagship <span class="text-gradient">Missions</span>
+          </h2>
+        </div>
+        <a href="events.html"
+          class="flex items-center gap-2 font-mono text-sm text-primary hover:text-primary-bright transition-colors shrink-0 reveal">
+          View All Events <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <article class="event-card-premium reveal">
+          <div class="ecp-image">
+            <img src="assets/figma_images/event_detail_hero.jpg" alt="Hackathons & Sprints" loading="lazy">
+            <div class="ecp-date-badge">Flagship Format</div>
+          </div>
+          <div class="ecp-body">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="tag">Hackathon</span>
+              <span class="tag tag-primary">DSA &amp; Dev</span>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-2">Hackathons &amp; Coding Sprints</h3>
+            <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+              24-hour developer hackathons and algorithmic sprints where student builders collaborate to build
+              real-world software solutions.
+            </p>
+            <a href="events.html"
+              class="inline-flex items-center gap-2 font-mono text-xs text-primary hover:text-primary-bright transition-colors">
+              Explore Programs <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </article>
+
+        <article class="event-card-premium reveal" style="animation-delay:0.1s">
+          <div class="ecp-image">
+            <img src="assets/figma_images/container_image_1.jpg" alt="Technical Bootcamps" loading="lazy">
+            <div class="ecp-date-badge">Hands-On</div>
+          </div>
+          <div class="ecp-body">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="tag">Workshops</span>
+              <span class="tag tag-primary">Mentorship</span>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-2">Technical Bootcamps</h3>
+            <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+              Deep-dive workshops spanning Full-Stack Web, Artificial Intelligence, Data Science, and Cybersecurity led
+              by domain specialists.
+            </p>
+            <a href="events.html"
+              class="inline-flex items-center gap-2 font-mono text-xs text-primary hover:text-primary-bright transition-colors">
+              Explore Programs <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 06 · CHAPTER TIMELINE
+       ============================================================ -->
+  <section id="timeline" class="site-section" style="background:rgba(19,19,32,0.4);overflow:hidden">
+    <div class="section-inner">
+
+      <div class="text-center mb-14">
+        <div class="pill mb-4 mx-auto w-fit reveal">
+          <i data-lucide="history" class="w-3.5 h-3.5"></i>
+          <span>MILESTONES &amp; ROADMAP</span>
+        </div>
+        <h2 class="section-heading text-4xl sm:text-5xl reveal">
+          Our <span class="text-gradient">Chapter Journey</span>
+        </h2>
+      </div>
+
+      <div class="tl-wrap reveal" id="tl-wrap">
+        <div class="tl-track" id="tl-track">
+
+          <div class="tl-step">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-year">Q3 2024</div>
+              <div class="tl-phase">INCEPTION</div>
+              <h3 class="tl-title">Chapter Charter</h3>
+              <p class="tl-body">Founded at NMIMS Indore with 50 student developers and 4 faculty mentors. Received
+                official ACM charter recognition globally.</p>
+            </div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-year">Q4 2024</div>
+              <div class="tl-phase">HACKACM 2.0</div>
+              <h3 class="tl-title">Smart Campus Hackathon</h3>
+              <p class="tl-body">120+ hackers, 26 teams, and live industry mentorship sessions over 24 hours. ₹50,000+
+                in prizes distributed.</p>
+            </div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-year">Q1 2025</div>
+              <div class="tl-phase">GROWTH</div>
+              <h3 class="tl-title">500 Members Milestone</h3>
+              <p class="tl-body">Crossed 500 active members. Launched 8 specialized technical domains with dedicated
+                domain leads and mentorship.</p>
+            </div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-year">Q3 2025</div>
+              <div class="tl-phase">ACM-W CHARTER</div>
+              <h3 class="tl-title">Women in Computing</h3>
+              <p class="tl-body">Official launch of ACM-W sub-chapter with 40+ female student leaders. First mentorship
+                cohort of 80+ members completed.</p>
+            </div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-year">Q4 2025</div>
+              <div class="tl-phase">CODESPRINT</div>
+              <h3 class="tl-title">National Level Contest</h3>
+              <p class="tl-body">CodeSprint expanded nationally with 300+ participants from 15+ colleges. National
+                coverage earned chapter recognition.</p>
+            </div>
+          </div>
+
+          <div class="tl-step">
+            <div class="tl-dot future-dot"></div>
+            <div class="tl-card tl-card-future">
+              <div class="tl-year" style="color:#f43f5e">2026 →</div>
+              <div class="tl-phase" style="color:#f43f5e">NEXT CHAPTER</div>
+              <h3 class="tl-title">AI Symposium &amp; Grants</h3>
+              <p class="tl-body">Expanding research, national hackathons, and competing for global ACM chapter
+                excellence and international grants.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-2 mt-4 font-mono text-xs" style="color:#6b6a78">
+        <i data-lucide="move-horizontal" class="w-4 h-4"></i>
+        <span>Drag or swipe to explore the timeline</span>
+      </div>
+
+    </div>
+  </section>
+
+
+
+
+  <!-- ============================================================
+       SECTION 08 · CHAPTER TEAM & LEADERSHIP
+       ============================================================ -->
+  <section id="team" class="site-section" style="background:rgba(19,19,32,0.3)">
+    <div class="section-inner">
+
+      <div class="text-center mb-14">
+        <div class="pill mb-4 mx-auto w-fit reveal">
+          <i data-lucide="users-round" class="w-3.5 h-3.5"></i>
+          <span>CHAPTER LEADERSHIP &amp; TEAM</span>
+        </div>
+        <h2 class="section-heading text-4xl sm:text-5xl reveal">
+          The <span class="text-gradient">People</span> Behind ACM
+        </h2>
+        <p class="font-mono text-sm max-w-xl mx-auto reveal mt-2" style="color:#a8a6b4">
+          Faculty mentors, executive leadership, and domain specialists — driving computing excellence at NMIMS Indore.
+        </p>
+      </div>
+
+      <!-- 1. Faculty Coordinators -->
+      <div class="mb-14">
+        <div class="flex items-center gap-2 mb-6 reveal">
+          <i data-lucide="graduation-cap" class="w-4 h-4 text-primary"></i>
+          <h3 class="font-display font-bold text-xl text-white">Faculty Coordinators</h3>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="member-card tilt-card reveal">
+            <img src="assets/team/Dr. Vikas Khare - Faculty Coordinator.jpeg" alt="Dr. Vikas Khare"
+              class="w-full aspect-[3/4] object-cover rounded-t-lg transition-transform duration-500 hover:scale-105">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Faculty Coordinator</div>
+              <div class="member-card-name">Dr. Vikas Khare</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.05s">
+            <img src="assets/team/Dr. Shruti Sharma - Faculty Coordinator.jpeg" alt="Dr. Shruti Sharma"
+              class="w-full aspect-[3/4] object-cover rounded-t-lg transition-transform duration-500 hover:scale-105">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Faculty Coordinator</div>
+              <div class="member-card-name">Dr. Shruti Sharma</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.1s">
+            <img src="assets/team/Dr. Ankur Ratmele - Faculty Coordinator.jpeg" alt="Dr. Ankur Ratmele"
+              class="w-full aspect-[3/4] object-cover rounded-t-lg transition-transform duration-500 hover:scale-105">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Faculty Coordinator</div>
+              <div class="member-card-name">Dr. Ankur Ratmele</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.15s">
+            <img src="assets/team/Dr. Abhaydeep Deth - Faculty Coordinator.png" alt="Dr. Abhaydeep Deth"
+              class="w-full aspect-[3/4] object-cover rounded-t-lg transition-transform duration-500 hover:scale-105">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Faculty Coordinator</div>
+              <div class="member-card-name">Dr. Abhaydeep Deth</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Executive Leadership -->
+      <div class="mb-14">
+        <div class="flex items-center gap-2 mb-6 reveal">
+          <i data-lucide="shield" class="w-4 h-4 text-primary"></i>
+          <h3 class="font-display font-bold text-xl text-white">Executive Leadership</h3>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+          <div class="member-card tilt-card reveal">
+            <img src="assets/team/Heyramb Damle - Chairperson.jpeg" alt="Heyramb Damle">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Chairperson</div>
+              <div class="member-card-name">Heyramb Damle</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.05s">
+            <img src="assets/team/Anupam Kanoongo - Vice Chairperson.jpeg" alt="Anupam">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Vice-Chairperson</div>
+              <div class="member-card-name">Anupam Kanoongo</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.1s">
+            <img src="assets/team/Toshan Dubey - Treasurer.jpg" alt="Toshan Dubey">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Treasurer</div>
+              <div class="member-card-name">Toshan Dubey</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.15s">
+            <img src="assets/team/Vanshika Jaiswal - Secretary.jpg" alt="Vanshika Jaiswal">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Secretary</div>
+              <div class="member-card-name">Vanshika Jaiswal</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.2s">
+            <img src="assets/team/Pari Batra - Web Master.jpg" alt="Pari Batra">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Web-Master</div>
+              <div class="member-card-name">Pari Batra</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.25s">
+            <img src="assets/team/Maithli Singh - Membership Chair.jpg" alt="Maithli Singh">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Membership Chair</div>
+              <div class="member-card-name">Maithli Singh Tomar</div>
+            </div>
+          </div>
+          <div class="member-card tilt-card reveal" style="animation-delay:0.3s">
+            <img src="assets/team/Nandini Namdeo - Membership Chair.jpg" alt="Nandini Namdeo">
+            <div class="member-card-overlay"></div>
+            <div class="member-card-info">
+              <div class="member-card-role mb-0.5">Membership Chair</div>
+              <div class="member-card-name">Nandini Namdeo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Domain Leads -->
+      <div>
+        <div class="flex items-center gap-2 mb-6 reveal">
+          <i data-lucide="layers" class="w-4 h-4 text-primary"></i>
+          <h3 class="font-display font-bold text-xl text-white">Domain Specialist Leads</h3>
+        </div>
+        <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div class="glass-card p-4 flex flex-col gap-2 reveal">
+            <div class="font-display font-bold text-white text-sm">AI/ML Lead</div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-primary">Deep Learning</div>
+            <div class="font-mono text-xs text-white/50">[Member Name]</div>
+          </div>
+          <div class="glass-card p-4 flex flex-col gap-2 reveal" style="animation-delay:0.05s">
+            <div class="font-display font-bold text-white text-sm">Cybersecurity Lead</div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-primary">Ethical Hacking</div>
+            <div class="font-mono text-xs text-white/50">[Member Name]</div>
+          </div>
+          <div class="glass-card p-4 flex flex-col gap-2 reveal" style="animation-delay:0.1s">
+            <div class="font-display font-bold text-white text-sm">Dev Lead</div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-primary">Full Stack</div>
+            <div class="font-mono text-xs text-white/50">[Member Name]</div>
+          </div>
+          <div class="glass-card p-4 flex flex-col gap-2 reveal" style="animation-delay:0.15s">
+            <div class="font-display font-bold text-white text-sm">Data Science Lead</div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-primary">Analytics</div>
+            <div class="font-mono text-xs text-white/50">[Member Name]</div>
+          </div>
+          <div class="glass-card p-4 flex flex-col gap-2 reveal" style="animation-delay:0.2s">
+            <div class="font-display font-bold text-white text-sm">Mobile Dev Lead</div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-primary">iOS / Android</div>
+            <div class="font-mono text-xs text-white/50">[Member Name]</div>
+          </div>
+          <div class="glass-card p-4 flex flex-col gap-2 reveal" style="animation-delay:0.25s">
+            <div class="font-display font-bold text-white text-sm">Content Lead</div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-primary">Media &amp; Comms</div>
+            <div class="font-mono text-xs text-white/50">[Member Name]</div>
+          </div>
+          <div class="glass-card p-4 flex flex-col gap-2 reveal" style="animation-delay:0.3s">
+            <div class="font-display font-bold text-white text-sm">Design Lead</div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-primary">UI / UX</div>
+            <div class="font-mono text-xs text-white/50">[Member Name]</div>
+          </div>
+          <div class="glass-card p-4 flex flex-col gap-2 reveal" style="animation-delay:0.35s">
+            <div class="font-display font-bold text-white text-sm">Competitive Lead</div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-primary">CP &amp; Contests</div>
+            <div class="font-mono text-xs text-white/50">[Member Name]</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 09 · PHOTO GALLERY
+       ============================================================ -->
+  <section id="gallery" class="site-section">
+    <div class="section-inner">
+
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+        <div>
+          <div class="pill mb-4 w-fit reveal">
+            <i data-lucide="image" class="w-3.5 h-3.5"></i>
+            <span>MEDIA &amp; GALLERY MATRIX</span>
+          </div>
+          <h2 class="section-heading text-4xl sm:text-5xl reveal">
+            Chapter <span class="text-gradient">Moments</span>
+          </h2>
+        </div>
+        <a href="gallery.html"
+          class="flex items-center gap-2 font-mono text-sm text-primary hover:text-primary-bright transition-colors shrink-0 reveal">
+          Full Photo Gallery <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="gallery-masonry reveal">
+        <div class="gallery-item" data-lightbox-src="assets/figma_images/gallery_photo_09.jpg" tabindex="0"
+          aria-label="Gallery image">
+          <img src="assets/figma_images/gallery_photo_09.jpg" alt="ACM Chapter Event" loading="lazy">
+          <div class="gallery-overlay"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+        </div>
+        <div class="gallery-item" data-lightbox-src="assets/figma_images/gallery_05.jpg" tabindex="0"
+          aria-label="Gallery image">
+          <img src="assets/figma_images/gallery_05.jpg" alt="ACM-W Launch" loading="lazy">
+          <div class="gallery-overlay"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+        </div>
+        <div class="gallery-item" data-lightbox-src="assets/figma_images/gallery_photo_01.jpg" tabindex="0"
+          aria-label="Gallery image">
+          <img src="assets/figma_images/gallery_photo_01.jpg" alt="Chapter Activities" loading="lazy">
+          <div class="gallery-overlay"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+        </div>
+        <div class="gallery-item" data-lightbox-src="assets/figma_images/event_detail_hero.jpg" tabindex="0"
+          aria-label="Gallery image">
+          <img src="assets/figma_images/event_detail_hero.jpg" alt="HackACM Event" loading="lazy">
+          <div class="gallery-overlay"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+        </div>
+        <div class="gallery-item" data-lightbox-src="assets/figma_images/gallery_photo_21.jpg" tabindex="0"
+          aria-label="Gallery image">
+          <img src="assets/figma_images/gallery_photo_21.jpg" alt="Workshop Session" loading="lazy">
+          <div class="gallery-overlay"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+        </div>
+        <div class="gallery-item" data-lightbox-src="assets/figma_images/gallery_photo_27.jpg" tabindex="0"
+          aria-label="Gallery image">
+          <img src="assets/figma_images/gallery_photo_27.jpg" alt="Team Event" loading="lazy">
+          <div class="gallery-overlay"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+        </div>
+        <div class="gallery-item" data-lightbox-src="assets/figma_images/gallery_photo_23.jpg" tabindex="0"
+          aria-label="Gallery image">
+          <img src="assets/figma_images/gallery_photo_23.jpg" alt="Chapter Activities" loading="lazy">
+          <div class="gallery-overlay"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+        </div>
+        <div class="gallery-item" data-lightbox-src="assets/figma_images/gallery_49.jpg" tabindex="0"
+          aria-label="Gallery image">
+          <img src="assets/figma_images/gallery_49.jpg" alt="Campus Activity" loading="lazy">
+          <div class="gallery-overlay"><i data-lucide="zoom-in" class="w-6 h-6"></i></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 10 · FAQ
+       ============================================================ -->
+  <section id="faq" class="site-section" style="background:rgba(19,19,32,0.4)">
+    <div class="section-inner" style="max-width:52rem">
+
+      <div class="text-center mb-14">
+        <div class="pill mb-4 mx-auto w-fit reveal">
+          <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+          <span>MEMBERSHIP FAQ</span>
+        </div>
+        <h2 class="section-heading text-4xl sm:text-5xl reveal">
+          Frequently Asked <span class="text-gradient">Questions</span>
+        </h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>Who can join ACM NMIMS Indore?</span>
+            <i data-lucide="plus" class="w-4 h-4 faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            Membership is open to all students at NMIMS Indore across engineering, computer science, data science, and
+            technology disciplines — regardless of their current coding experience level.
+          </div>
+        </div>
+        <div class="faq-item reveal" style="animation-delay:0.05s">
+          <button class="faq-question">
+            <span>What benefits do official ACM members receive?</span>
+            <i data-lucide="plus" class="w-4 h-4 faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            Members gain full access to the ACM Digital Library, exclusive priority entry to HackACM &amp; CodeSprint,
+            personalized mentorship circles, discounts on international tech summits, and official ACM chapter
+            certificates.
+          </div>
+        </div>
+        <div class="faq-item reveal" style="animation-delay:0.1s">
+          <button class="faq-question">
+            <span>Where can I find the ACM-W Chapter?</span>
+            <i data-lucide="plus" class="w-4 h-4 faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            ACM-W NMIMS Indore operates as a separate dedicated chapter with its own independent website, events, and
+            leadership team. Click below to open the official ACM-W portal.
+            <div class="mt-3">
+              <a href="https://nmimsindore.acm.org" target="_blank" rel="noreferrer"
+                class="btn-primary text-xs inline-flex items-center gap-2 py-2 px-4">
+                <span>Visit ACM-W Website</span> <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item reveal" style="animation-delay:0.15s">
+          <button class="faq-question">
+            <span>How can I apply for the Core Organizing Committee?</span>
+            <i data-lucide="plus" class="w-4 h-4 faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            Core committee recruitment drives are held at the beginning of each academic semester. Applications open
+            across Technical, Events, PR/Marketing, Design, and Logistics domains. Follow our Instagram for
+            announcements.
+          </div>
+        </div>
+        <div class="faq-item reveal" style="animation-delay:0.2s">
+          <button class="faq-question">
+            <span>Is there a membership fee?</span>
+            <i data-lucide="plus" class="w-4 h-4 faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            Joining the student chapter is free. Optional paid ACM global membership ($19/year for students) unlocks the
+            ACM Digital Library and conference discounts. Check our join page for current details.
+          </div>
+        </div>
+        <div class="faq-item reveal" style="animation-delay:0.25s">
+          <button class="faq-question">
+            <span>How do I stay updated on events?</span>
+            <i data-lucide="plus" class="w-4 h-4 faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            Follow @acm_nmims_indore on Instagram, join our WhatsApp announcements group (link on the join page), or
+            check the Events section on this website. All major events are posted 2–4 weeks in advance.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 11 · JOIN CTA
+       ============================================================ -->
+  <section id="join" class="join-cta">
+    <div class="join-glow"></div>
+    <div class="join-grid-overlay"></div>
+    <div class="join-inner">
+      <div class="pill mb-6 mx-auto w-fit reveal"
+        style="border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.8)">
+        <i data-lucide="rocket" class="w-3.5 h-3.5"></i>
+        <span>READY TO BUILD THE FUTURE?</span>
+      </div>
+      <h2 class="section-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 text-white reveal">
+        Join ACM NMIMS<br><span class="text-gradient">Indore Today</span>
+      </h2>
+      <p class="font-mono text-sm md:text-base max-w-xl mx-auto mb-10 reveal"
+        style="color:rgba(255,255,255,0.65);animation-delay:0.1s">
+        Become part of the largest student computing community at NMIMS Indore. Access resources, events, mentorship,
+        and a global network of 100,000+ ACM professionals.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal" style="animation-delay:0.2s">
+        <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
+          class="btn-primary text-sm md:text-base px-10 py-4 font-display">
+          Apply for Membership <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="mailto:acm@nmims.edu" class="btn-ghost text-sm md:text-base px-10 py-4"
+          style="border-color:rgba(255,255,255,0.2);color:#fff">
+          Contact Core Team
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer id="site-footer">
+
+    <!-- Glow accent line -->
+    <div class="footer-glow-line"></div>
+
+    <!-- Upper CTA strip -->
+    <div class="footer-cta-strip">
+      <div class="footer-cta-inner">
+        <div class="footer-cta-text">
+          <span class="font-mono text-[10px] tracking-[0.18em] uppercase" style="color:rgba(225,29,72,0.7)">Official
+            Student Chapter</span>
+          <p class="font-display font-bold text-white text-xl sm:text-2xl mt-1">ACM NMIMS Indore — Join The Chapter</p>
+        </div>
+        <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
+          class="btn-primary text-sm shrink-0">
+          Join ACM <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main footer body -->
+    <div class="footer-body">
+
+      <!-- Brand column -->
+      <div class="footer-brand-col">
+        <a href="index.html" class="flex items-center gap-3 mb-5">
+          <div class="logo-box">
+            <img src="assets/acm_logo_white_bg.png" alt="ACM NMIMS" class="h-7 w-auto">
+          </div>
+          <div>
+            <div class="font-display font-bold text-white text-sm">ACM NMIMS</div>
+            <div class="font-mono text-[9px] tracking-widest uppercase" style="color:#a8a6b4">Student Chapter · Indore
+            </div>
+          </div>
+        </a>
+        <p class="font-mono text-xs leading-relaxed mb-6" style="color:#6b6a78;max-width:18rem">
+          Official student chapter of the Association for Computing Machinery — advancing computing as a science &amp;
+          profession at NMIMS Indore.
+        </p>
+        <!-- Social icons -->
+        <div class="flex items-center gap-2.5">
+          <a href="https://instagram.com" target="_blank" rel="noreferrer" class="social-icon" aria-label="Instagram">
+            <i data-lucide="instagram" class="w-4 h-4"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="social-icon" aria-label="LinkedIn">
+            <i data-lucide="linkedin" class="w-4 h-4"></i>
+          </a>
+          <a href="https://github.com" target="_blank" rel="noreferrer" class="social-icon" aria-label="GitHub">
+            <i data-lucide="github" class="w-4 h-4"></i>
+          </a>
+          <a href="mailto:acm@nmims.edu" class="social-icon" aria-label="Email">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Link columns -->
+      <div class="footer-links-grid">
+
+        <div>
+          <h4 class="footer-col-title">Navigate</h4>
+          <ul class="footer-link-list">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="events.html" class="footer-link">Events</a></li>
+            <li><a href="#team" class="footer-link">Team</a></li>
+            <li><a href="gallery.html" class="footer-link">Gallery</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Chapter</h4>
+          <ul class="footer-link-list">
+            <li><a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer" class="footer-link">Join
+                Us</a></li>
+            <li><a href="https://nmimsindore.acm.org:2096/" target="_blank" rel="noreferrer" class="footer-link">Member
+                Login</a></li>
+            <li><a href="https://www.acm.org" target="_blank" rel="noreferrer" class="footer-link">ACM Global</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Contact</h4>
+          <ul class="footer-contact-list">
+            <li>
+              <i data-lucide="mail" class="w-3.5 h-3.5 shrink-0 text-primary"></i>
+              <a href="mailto:acm@nmims.edu" class="footer-link">acm@nmims.edu</a>
+            </li>
+            <li>
+              <i data-lucide="globe" class="w-3.5 h-3.5 shrink-0 text-primary"></i>
+              <a href="https://nmimsindore.acm.org" target="_blank" rel="noreferrer"
+                class="footer-link">nmimsindore.acm.org</a>
+            </li>
+            <li>
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 shrink-0 text-primary mt-0.5"></i>
+              <span style="color:#6b6a78">NMIMS Indore, Sanwer Road, MP — 453441</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <p class="font-mono text-[10px]" style="color:#6b6a78">
+        &copy; 2026 ACM NMIMS Indore Student Chapter. All rights reserved.
+      </p>
+      <div class="flex items-center gap-2 font-mono text-[10px]" style="color:#6b6a78">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Association for Computing Machinery</span>
+      </div>
+    </div>
+
+
+    <!-- Back to Top -->
+    <button id="back-to-top" aria-label="Back to top">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="19" x2="12" y2="5" />
+        <polyline points="5 12 12 5 19 12" />
+      </svg>
+    </button>
+
+    <!-- ============================================================
+       LIGHTBOX MODAL
+       ============================================================ -->
+    <div id="gallery-lightbox" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+      <div class="lb-top-bar">
+        <span id="lightbox-counter" class="font-mono text-xs" style="color:#6b6a78">1 / 9</span>
+        <button id="close-lightbox" class="lb-btn" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="lb-body">
+        <button id="prev-lightbox" class="lb-btn" aria-label="Previous">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <img id="lightbox-img" src="" alt="Gallery photo" class="lb-img">
+        <button id="next-lightbox" class="lb-btn" aria-label="Next">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
+
 </html>

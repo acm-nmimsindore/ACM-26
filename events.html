@@ -62,7 +62,7 @@
         <ul class="flex items-center gap-6">
           <li><a href="index.html"   class="nav-link">Home</a></li>
           <li><a href="events.html"  class="nav-link active">Events</a></li>
-          <li><a href="team.html"    class="nav-link">Team</a></li>
+          <li><a href="index.html#team" class="nav-link">Team</a></li>
           <li><a href="gallery.html" class="nav-link">Gallery</a></li>
         </ul>
         <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
@@ -78,7 +78,7 @@
         <ul class="flex flex-col items-center gap-5 text-center">
           <li><a href="index.html"   class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Home</a></li>
           <li><a href="events.html"  class="text-2xl font-display font-bold text-primary">Events</a></li>
-          <li><a href="team.html"    class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Team</a></li>
+          <li><a href="index.html#team" class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Team</a></li>
           <li><a href="gallery.html" class="text-2xl font-display font-bold text-white hover:text-primary transition-colors">Gallery</a></li>
         </ul>
         <a href="https://nmimsindore.acm.org/join/" target="_blank" rel="noreferrer"
@@ -114,7 +114,7 @@
       <div class="absolute inset-0 bg-dots" style="opacity:0.08;pointer-events:none"></div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
-        <div data-aos="fade-right" class="flex items-center gap-4 mb-8 sm:mb-12">
+        <div data-aos="fade-right" class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
           <div class="section-divider">
             <div class="pill w-fit">
               <i data-lucide="zap" class="w-3 h-3"></i>
@@ -122,115 +122,62 @@
             </div>
             <h2 class="section-heading text-2xl sm:text-3xl md:text-4xl mt-2">Scheduled Missions</h2>
           </div>
+          <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 text-amber-300 font-mono text-xs w-fit">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span>No Active Events Currently Live · Check Back Soon</span>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
           <div data-aos="fade-up" data-aos-delay="0" class="event-card">
-            <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
-              <div class="flex items-center gap-2">
-                <div class="icon-badge" style="width:2rem;height:2rem">
-                  <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
-                </div>
-                <h3 class="font-display font-bold text-lg sm:text-xl text-white">HackACM 3.0</h3>
-              </div>
-              <span class="tag-primary font-mono text-[10px] px-2.5 py-1 rounded-full">TBA 2026</span>
+            <div class="overflow-hidden rounded-lg mb-4 h-40 border border-white/10">
+              <img src="assets/figma_images/event_detail_hero.jpg" alt="Hackathons & Sprints" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
             </div>
-            <p class="event-brief font-mono text-xs leading-relaxed line-clamp-2 mb-4" style="color:#a8a6b4">
-              The third edition of ACM NMIMS' flagship 24-hour hackathon. Open to all students with tracks in AI/ML, Web3, and Sustainability. Expert judges, live mentorship, and prizes worth ₹1L+.
+            <div class="flex items-center gap-2 mb-3">
+              <h3 class="font-display font-bold text-lg text-white">Hackathons &amp; Sprints</h3>
+            </div>
+            <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+              24-hour developer hackathons, team coding sprints, and algorithmic challenges designed to build real-world software solutions.
             </p>
-            <div class="flex items-center justify-between gap-3 flex-wrap">
-              <div class="flex flex-wrap gap-1.5">
-                <span class="tag">Hackathon</span>
-                <span class="tag">24-Hour</span>
-                <span class="tag">AI/ML</span>
-              </div>
-              <button class="toggle-brief-btn font-mono text-[10px] flex items-center gap-1 transition-colors hover:text-white"
-                      style="color:#e11d48">
-                <span class="btn-text">Read Full Brief</span>
-                <i data-lucide="chevron-down" class="w-3 h-3 btn-icon transition-transform"></i>
-              </button>
+            <div class="flex flex-wrap gap-1.5 mt-auto">
+              <span class="tag">Hackathons</span>
+              <span class="tag">DSA</span>
+              <span class="tag">Projects</span>
             </div>
           </div>
 
           <div data-aos="fade-up" data-aos-delay="100" class="event-card">
-            <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
-              <div class="flex items-center gap-2">
-                <div class="icon-badge" style="width:2rem;height:2rem">
-                  <i data-lucide="users" class="w-3.5 h-3.5"></i>
-                </div>
-                <h3 class="font-display font-bold text-lg sm:text-xl text-white">CodeSprint '26</h3>
-              </div>
-              <span class="tag-primary font-mono text-[10px] px-2.5 py-1 rounded-full">Feb 2026</span>
+            <div class="overflow-hidden rounded-lg mb-4 h-40 border border-white/10">
+              <img src="assets/figma_images/container_image_1.jpg" alt="Technical Bootcamps" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
             </div>
-            <p class="event-brief font-mono text-xs leading-relaxed line-clamp-2 mb-4" style="color:#a8a6b4">
-              A competitive programming sprint for aspiring coders. Three rounds of escalating difficulty covering algorithms, dynamic programming, graphs, and system design challenges.
+            <div class="flex items-center gap-2 mb-3">
+              <h3 class="font-display font-bold text-lg text-white">Technical Bootcamps</h3>
+            </div>
+            <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+              Hands-on workshops spanning Web Development, AI/ML, Cybersecurity, App Development, and Data Science led by domain leads.
             </p>
-            <div class="flex items-center justify-between gap-3 flex-wrap">
-              <div class="flex flex-wrap gap-1.5">
-                <span class="tag">Competitive</span>
-                <span class="tag">DSA</span>
-                <span class="tag">Prizes</span>
-              </div>
-              <button class="toggle-brief-btn font-mono text-[10px] flex items-center gap-1 transition-colors hover:text-white"
-                      style="color:#e11d48">
-                <span class="btn-text">Read Full Brief</span>
-                <i data-lucide="chevron-down" class="w-3 h-3 btn-icon transition-transform"></i>
-              </button>
-            </div>
-          </div>
-
-          <div data-aos="fade-up" data-aos-delay="150" class="event-card">
-            <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
-              <div class="flex items-center gap-2">
-                <div class="icon-badge" style="width:2rem;height:2rem">
-                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
-                </div>
-                <h3 class="font-display font-bold text-lg sm:text-xl text-white">AI Symposium 2026</h3>
-              </div>
-              <span class="tag-primary font-mono text-[10px] px-2.5 py-1 rounded-full">Mar 2026</span>
-            </div>
-            <p class="event-brief font-mono text-xs leading-relaxed line-clamp-2 mb-4" style="color:#a8a6b4">
-              A full-day symposium on Artificial Intelligence featuring industry keynotes on LLMs, computer vision, and autonomous systems. Includes student paper presentations and open Q&A.
-            </p>
-            <div class="flex items-center justify-between gap-3 flex-wrap">
-              <div class="flex flex-wrap gap-1.5">
-                <span class="tag">AI/ML</span>
-                <span class="tag">Keynote</span>
-                <span class="tag">Research</span>
-              </div>
-              <button class="toggle-brief-btn font-mono text-[10px] flex items-center gap-1 transition-colors hover:text-white"
-                      style="color:#e11d48">
-                <span class="btn-text">Read Full Brief</span>
-                <i data-lucide="chevron-down" class="w-3 h-3 btn-icon transition-transform"></i>
-              </button>
+            <div class="flex flex-wrap gap-1.5 mt-auto">
+              <span class="tag">Workshops</span>
+              <span class="tag">Hands-on</span>
+              <span class="tag">Mentorship</span>
             </div>
           </div>
 
           <div data-aos="fade-up" data-aos-delay="200" class="event-card">
-            <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
-              <div class="flex items-center gap-2">
-                <div class="icon-badge" style="width:2rem;height:2rem">
-                  <i data-lucide="heart" class="w-3 h-3"></i>
-                </div>
-                <h3 class="font-display font-bold text-lg sm:text-xl text-white">ACM-W Summit</h3>
-              </div>
-              <span class="tag-primary font-mono text-[10px] px-2.5 py-1 rounded-full">Apr 2026</span>
+            <div class="overflow-hidden rounded-lg mb-4 h-40 border border-white/10">
+              <img src="assets/figma_images/container_image_2.jpg" alt="Guest Keynotes & Talks" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
             </div>
-            <p class="event-brief font-mono text-xs leading-relaxed line-clamp-2 mb-4" style="color:#a8a6b4">
-              Flagship event of the ACM-W sub-chapter. Panel discussions, mentorship circles, and coding bootcamps exclusively designed to bridge the gender gap in computing.
+            <div class="flex items-center gap-2 mb-3">
+              <h3 class="font-display font-bold text-lg text-white">Keynotes &amp; Tech Talks</h3>
+            </div>
+            <p class="font-mono text-xs leading-relaxed mb-4" style="color:#a8a6b4">
+              Interactive sessions with faculty advisors, research scholars, and industry professionals sharing career and technical insights.
             </p>
-            <div class="flex items-center justify-between gap-3 flex-wrap">
-              <div class="flex flex-wrap gap-1.5">
-                <span class="tag">ACM-W</span>
-                <span class="tag">Diversity</span>
-                <span class="tag">Panels</span>
-              </div>
-              <button class="toggle-brief-btn font-mono text-[10px] flex items-center gap-1 transition-colors hover:text-white"
-                      style="color:#e11d48">
-                <span class="btn-text">Read Full Brief</span>
-                <i data-lucide="chevron-down" class="w-3 h-3 btn-icon transition-transform"></i>
-              </button>
+            <div class="flex flex-wrap gap-1.5 mt-auto">
+              <span class="tag">Keynotes</span>
+              <span class="tag">Industry</span>
+              <span class="tag">Career</span>
             </div>
           </div>
 
@@ -381,13 +328,14 @@
       <nav class="flex items-center gap-5">
         <a href="index.html"   class="hover:text-primary transition-colors">/home</a>
         <a href="events.html"  class="hover:text-primary transition-colors">/events</a>
-        <a href="team.html"    class="hover:text-primary transition-colors">/team</a>
+        <a href="index.html#team" class="hover:text-primary transition-colors">/team</a>
         <a href="gallery.html" class="hover:text-primary transition-colors">/gallery</a>
       </nav>
     </div>
   </footer>
 
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>if (typeof AOS !== 'undefined') AOS.init({ duration: 600, once: true });</script>
   <script src="js/main.js"></script>
   <script>lucide.createIcons();</script>
 </body>
