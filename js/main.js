@@ -319,10 +319,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowLeft')  openLightbox(curIdx - 1);
   });
   // ============================================================
-  // GALLERY FILTER
+  // GALLERY FILTER & ABSTRACT GRID CONTROLS
   // ============================================================
   const filterBtns  = document.querySelectorAll('.filter-btn');
   const filterItems = document.querySelectorAll('.filter-item');
+  const presetBtns  = document.querySelectorAll('.preset-btn');
+  const galleryGrid = document.getElementById('gallery-grid');
 
   if (filterBtns.length && filterItems.length) {
     filterBtns.forEach(btn => {
@@ -345,6 +347,63 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // Abstract Dynamic Grid Preset Switcher & Randomizer
+  const mosaicPattern = [
+    'span-2x2', 'span-1x2', 'span-1x1', 'span-2x1',
+    'span-1x1', 'span-2x1', 'span-1x2', 'span-1x1',
+    'span-1x1', 'span-2x2', 'span-1x1', 'span-2x1',
+    'span-1x1', 'span-2x1', 'span-2x2', 'span-1x2',
+    'span-2x1', 'span-1x1'
+  ];
+
+  const bentoPattern = [
+    'span-2x2', 'span-2x1', 'span-1x2', 'span-1x1',
+    'span-2x1', 'span-2x2', 'span-1x1', 'span-1x2'
+  ];
+
+  const possibleSpans = ['span-1x1', 'span-2x1', 'span-1x2', 'span-2x2'];
+
+  function setGridPreset(mode) {
+    if (!filterItems.length) return;
+    
+    // Animate container out slightly
+    if (galleryGrid) {
+      galleryGrid.style.opacity = '0.3';
+      galleryGrid.style.transform = 'scale(0.98)';
+    }
+
+    setTimeout(() => {
+      filterItems.forEach((item, idx) => {
+        item.classList.remove('span-1x1', 'span-2x1', 'span-1x2', 'span-2x2', 'span-3x1', 'span-3x2');
+        
+        if (mode === 'mosaic') {
+          item.classList.add(mosaicPattern[idx % mosaicPattern.length]);
+        } else if (mode === 'bento') {
+          item.classList.add(bentoPattern[idx % bentoPattern.length]);
+        } else if (mode === 'compact') {
+          item.classList.add('span-1x1');
+        } else if (mode === 'random') {
+          const randSpan = possibleSpans[Math.floor(Math.random() * possibleSpans.length)];
+          item.classList.add(randSpan);
+        }
+      });
+
+      if (galleryGrid) {
+        galleryGrid.style.opacity = '1';
+        galleryGrid.style.transform = 'scale(1)';
+      }
+    }, 200);
+  }
+
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      presetBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const preset = btn.getAttribute('data-preset');
+      setGridPreset(preset);
+    });
+  });
 
 
   // ============================================================

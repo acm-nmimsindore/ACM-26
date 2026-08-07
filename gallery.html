@@ -140,611 +140,484 @@
            style="background:rgba(225,29,72,0.12)"></div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center relative z-10">
         <div data-aos="fade-up" class="pill mb-4 sm:mb-5 mx-auto w-fit">
-          <i data-lucide="image" class="w-3 h-3"></i>
-          <span>CHAPTER PHOTO GALLERY (32 VERIFIED ASSETS)</span>
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-primary"></i>
+          <span>ABSTRACT DYNAMIC MOSAIC</span>
         </div>
         <h1 data-aos="fade-up" data-aos-delay="100" class="section-heading text-3xl xs:text-4xl sm:text-6xl md:text-7xl mb-4 sm:mb-5">
           Chapter <span class="text-gradient">Moments</span>
         </h1>
         <p data-aos="fade-up" data-aos-delay="200" class="font-mono text-xs sm:text-sm max-w-xl mx-auto leading-relaxed" style="color:#a8a6b4">
-          Explore high-resolution highlights from our hackathons, CodeSprint contests, workshops, and chapter team media.<br class="hidden sm:block">Click any photo to open full view.
+          Explore high-resolution event media organized in an asymmetric dynamic abstract grid.<br class="hidden sm:block">Click any photo to open full view or shuffle layout presets below.
         </p>
 
         <!-- FILTER CATEGORY BAR -->
         <div data-aos="fade-up" data-aos-delay="300" class="flex flex-wrap items-center justify-center gap-2 mt-8" id="gallery-filters">
-          <button class="filter-btn active" data-filter="all">All Photos (32)</button>
+          <button class="filter-btn active" data-filter="all">All Photos</button>
           <button class="filter-btn" data-filter="hackathons">Hackathons &amp; Contests</button>
           <button class="filter-btn" data-filter="events">Talks &amp; Workshops</button>
           <button class="filter-btn" data-filter="community">Community &amp; ACM-W</button>
-          <button class="filter-btn" data-filter="team">Team &amp; Leadership</button>
         </div>
+
+        <!-- ABSTRACT GRID PRESET CONTROL BAR -->
+        <div data-aos="fade-up" data-aos-delay="350" class="flex flex-wrap items-center justify-center gap-2 mt-4 pt-4 border-t border-white/5 max-w-2xl mx-auto">
+          <span class="font-mono text-[11px] uppercase tracking-wider text-white/40 mr-1 flex items-center gap-1">
+            <i data-lucide="sliders" class="w-3 h-3"></i> Grid Mode:
+          </span>
+          <button class="preset-btn active" data-preset="mosaic">
+            <i data-lucide="grid" class="w-3.5 h-3.5"></i> Abstract Mosaic
+          </button>
+          <button class="preset-btn" data-preset="bento">
+            <i data-lucide="layout-template" class="w-3.5 h-3.5"></i> Bento Box
+          </button>
+          <button class="preset-btn" data-preset="compact">
+            <i data-lucide="square" class="w-3.5 h-3.5"></i> Compact Grid
+          </button>
+          <button class="preset-btn text-primary border-primary/30 hover:border-primary" data-preset="random">
+            <i data-lucide="shuffle" class="w-3.5 h-3.5"></i> Randomize Grid
+          </button>
+        </div>
+
       </div>
     </section>
 
-    <!-- GALLERY MASONRY -->
-    <section class="py-16 relative overflow-hidden">
+    <!-- ABSTRACT GALLERY GRID -->
+    <section class="py-12 sm:py-16 relative overflow-hidden">
       <div class="absolute inset-0 bg-dots" style="opacity:0.07;pointer-events:none"></div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
-        <div class="masonry" id="gallery-grid">
+        <div class="abstract-grid" id="gallery-grid">
 
           <!-- Item 01 -->
           <div data-aos="fade-up" data-aos-delay="60"
-               class="gallery-item filter-item" data-category="events"
+               class="gallery-item filter-item span-2x2 tilt-card" data-category="events"
                data-lightbox-src="assets/figma_images/gallery_photo_09.jpg"
                role="button" tabindex="0" aria-label="Flagship Summit 2025 Stage">
-            <img src="assets/figma_images/gallery_photo_09.jpg" alt="Flagship Summit 2025 Stage" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Flagship Event</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Flagship Summit 2025 Stage</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Opening Ceremony &amp; Keynote Stage</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#01</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_09.jpg" alt="Flagship Summit 2025 Stage" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Flagship Event</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Flagship Summit 2025 Stage</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Opening Ceremony &amp; Keynote Stage</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 02 -->
           <div data-aos="fade-up" data-aos-delay="120"
-               class="gallery-item filter-item" data-category="community"
+               class="gallery-item filter-item span-1x2 tilt-card" data-category="community"
                data-lightbox-src="assets/figma_images/gallery_05.jpg"
                role="button" tabindex="0" aria-label="ACM-W Sub-Chapter Launch">
-            <img src="assets/figma_images/gallery_05.jpg" alt="ACM-W Sub-Chapter Launch" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">ACM-W Launch</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">ACM-W Sub-Chapter Launch</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">40+ Female Student Leaders Cohort</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#02</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_05.jpg" alt="ACM-W Sub-Chapter Launch" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">ACM-W Launch</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">ACM-W Sub-Chapter Launch</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">40+ Female Student Leaders Cohort</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 03 -->
           <div data-aos="fade-up" data-aos-delay="180"
-               class="gallery-item filter-item" data-category="hackathons"
+               class="gallery-item filter-item span-1x1 tilt-card" data-category="hackathons"
                data-lightbox-src="assets/figma_images/gallery_photo_01.jpg"
                role="button" tabindex="0" aria-label="Smart Campus Hackathon 2.0">
-            <img src="assets/figma_images/gallery_photo_01.jpg" alt="Smart Campus Hackathon 2.0" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Hackathon 24h</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Smart Campus Hackathon 2.0</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">120+ Hackers &amp; 26 Student Teams</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#03</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_01.jpg" alt="Smart Campus Hackathon 2.0" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Hackathon 24h</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Smart Campus Hackathon 2.0</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">120+ Hackers &amp; 26 Student Teams</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 04 -->
           <div data-aos="fade-up" data-aos-delay="240"
-               class="gallery-item filter-item" data-category="hackathons"
+               class="gallery-item filter-item span-2x1 tilt-card" data-category="hackathons"
                data-lightbox-src="assets/figma_images/event_detail_hero.jpg"
                role="button" tabindex="0" aria-label="HackACM Main Hackathon Floor">
-            <img src="assets/figma_images/event_detail_hero.jpg" alt="HackACM Main Hackathon Floor" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">HackACM 2.0</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">HackACM Main Hackathon Floor</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Live Mentorship &amp; Code Sprints</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#04</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/event_detail_hero.jpg" alt="HackACM Main Hackathon Floor" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">HackACM 2.0</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">HackACM Main Hackathon Floor</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Live Mentorship &amp; Code Sprints</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 05 -->
           <div data-aos="fade-up" data-aos-delay="300"
-               class="gallery-item filter-item" data-category="hackathons"
+               class="gallery-item filter-item span-1x1 tilt-card" data-category="hackathons"
                data-lightbox-src="assets/figma_images/gallery_photo_21.jpg"
                role="button" tabindex="0" aria-label="National CodeSprint Contest">
-            <img src="assets/figma_images/gallery_photo_21.jpg" alt="National CodeSprint Contest" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">CodeSprint</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">National CodeSprint Contest</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">300+ Coders Across 15+ Colleges</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#05</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_21.jpg" alt="National CodeSprint Contest" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">CodeSprint</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">National CodeSprint Contest</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">300+ Coders Across 15+ Colleges</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 06 -->
           <div data-aos="fade-up" data-aos-delay="0"
-               class="gallery-item filter-item" data-category="community"
+               class="gallery-item filter-item span-2x1 tilt-card" data-category="community"
                data-lightbox-src="assets/figma_images/gallery_photo_27.jpg"
                role="button" tabindex="0" aria-label="ACM-W Women in Tech Circle">
-            <img src="assets/figma_images/gallery_photo_27.jpg" alt="ACM-W Women in Tech Circle" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">ACM-W Community</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">ACM-W Women in Tech Circle</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Mentorship &amp; Leadership Cohort</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#06</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_27.jpg" alt="ACM-W Women in Tech Circle" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">ACM-W Community</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">ACM-W Women in Tech Circle</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Mentorship &amp; Leadership Cohort</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 07 -->
           <div data-aos="fade-up" data-aos-delay="60"
-               class="gallery-item filter-item" data-category="events"
+               class="gallery-item filter-item span-1x2 tilt-card" data-category="events"
                data-lightbox-src="assets/figma_images/gallery_photo_23.jpg"
                role="button" tabindex="0" aria-label="Technical Keynote Speaker">
-            <img src="assets/figma_images/gallery_photo_23.jpg" alt="Technical Keynote Speaker" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Tech Talk</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Technical Keynote Speaker</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Expert Guest Lecture</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#07</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_23.jpg" alt="Technical Keynote Speaker" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Tech Talk</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Technical Keynote Speaker</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Expert Guest Lecture</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 08 -->
           <div data-aos="fade-up" data-aos-delay="120"
-               class="gallery-item filter-item" data-category="events"
+               class="gallery-item filter-item span-1x1 tilt-card" data-category="events"
                data-lightbox-src="assets/figma_images/gallery_49.jpg"
                role="button" tabindex="0" aria-label="Developer Architecture Bootcamp">
-            <img src="assets/figma_images/gallery_49.jpg" alt="Developer Architecture Bootcamp" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Workshop</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Developer Architecture Bootcamp</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Hands-On Full Stack &amp; Cloud Lab</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#08</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_49.jpg" alt="Developer Architecture Bootcamp" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Workshop</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Developer Architecture Bootcamp</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Hands-On Full Stack &amp; Cloud Lab</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 09 -->
           <div data-aos="fade-up" data-aos-delay="180"
-               class="gallery-item filter-item" data-category="community"
+               class="gallery-item filter-item span-1x1 tilt-card" data-category="community"
                data-lightbox-src="assets/figma_images/gallery_photo_05.jpg"
                role="button" tabindex="0" aria-label="Chapter General Assembly">
-            <img src="assets/figma_images/gallery_photo_05.jpg" alt="Chapter General Assembly" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">General Body</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Chapter General Assembly</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Annual Member Meet &amp; Strategy</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#09</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_05.jpg" alt="Chapter General Assembly" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">General Body</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Chapter General Assembly</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Annual Member Meet &amp; Strategy</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 10 -->
           <div data-aos="fade-up" data-aos-delay="240"
-               class="gallery-item filter-item" data-category="hackathons"
+               class="gallery-item filter-item span-2x2 tilt-card" data-category="hackathons"
                data-lightbox-src="assets/figma_images/gallery_photo_03.jpg"
                role="button" tabindex="0" aria-label="Competitive Programming Sprints">
-            <img src="assets/figma_images/gallery_photo_03.jpg" alt="Competitive Programming Sprints" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">DSA Sprint</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Competitive Programming Sprints</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Algorithmic Problem Solving Contest</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#10</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_03.jpg" alt="Competitive Programming Sprints" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">DSA Sprint</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Competitive Programming Sprints</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Algorithmic Problem Solving Contest</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 11 -->
           <div data-aos="fade-up" data-aos-delay="300"
-               class="gallery-item filter-item" data-category="events"
+               class="gallery-item filter-item span-1x1 tilt-card" data-category="events"
                data-lightbox-src="assets/figma_images/gallery_photo_25.jpg"
                role="button" tabindex="0" aria-label="Cybersecurity CTF Workshop">
-            <img src="assets/figma_images/gallery_photo_25.jpg" alt="Cybersecurity CTF Workshop" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Cybersecurity</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Cybersecurity CTF Workshop</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Ethical Hacking &amp; Forensics Lab</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#11</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_25.jpg" alt="Cybersecurity CTF Workshop" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Cybersecurity</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Cybersecurity CTF Workshop</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Ethical Hacking &amp; Forensics Lab</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 12 -->
           <div data-aos="fade-up" data-aos-delay="0"
-               class="gallery-item filter-item" data-category="events"
+               class="gallery-item filter-item span-2x1 tilt-card" data-category="events"
                data-lightbox-src="assets/figma_images/gallery_photo_26.jpg"
                role="button" tabindex="0" aria-label="Student Project Pitch & Demo">
-            <img src="assets/figma_images/gallery_photo_26.jpg" alt="Student Project Pitch & Demo" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Project Showcase</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Student Project Pitch &amp; Demo</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Live Software Demonstrations</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#12</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_26.jpg" alt="Student Project Pitch & Demo" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Project Showcase</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Student Project Pitch &amp; Demo</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Live Software Demonstrations</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 13 -->
-          <div data-aos="fade-up" data-aos-delay="60"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/figma_images/gallery_photo_06.jpg"
-               role="button" tabindex="0" aria-label="Faculty Advisory & Mentorship">
-            <img src="assets/figma_images/gallery_photo_06.jpg" alt="Faculty Advisory & Mentorship" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Faculty Mentors</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Faculty Advisory &amp; Mentorship</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Department Mentorship</p>
+          <div data-aos="fade-up" data-aos-delay="120"
+               class="gallery-item filter-item span-1x1 tilt-card" data-category="community"
+               data-lightbox-src="assets/figma_images/gallery_photo_07.jpg"
+               role="button" tabindex="0" aria-label="Chapter Networking Circle">
+            <div class="abstract-card group">
+              <span class="grid-idx">#13</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_07.jpg" alt="Chapter Networking Circle" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Community</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Chapter Networking Circle</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Student Builders &amp; Peer Mentors</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 14 -->
-          <div data-aos="fade-up" data-aos-delay="120"
-               class="gallery-item filter-item" data-category="community"
-               data-lightbox-src="assets/figma_images/gallery_photo_07.jpg"
-               role="button" tabindex="0" aria-label="Chapter Networking Circle">
-            <img src="assets/figma_images/gallery_photo_07.jpg" alt="Chapter Networking Circle" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Community</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Chapter Networking Circle</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Student Builders &amp; Peer Mentors</p>
+          <div data-aos="fade-up" data-aos-delay="180"
+               class="gallery-item filter-item span-2x1 tilt-card" data-category="events"
+               data-lightbox-src="assets/figma_images/gallery_photo_08.jpg"
+               role="button" tabindex="0" aria-label="System Design Interactive Lab">
+            <div class="abstract-card group">
+              <span class="grid-idx">#14</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_08.jpg" alt="System Design Interactive Lab" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">System Design</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">System Design Interactive Lab</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Real-world Architecture Workshop</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 15 -->
-          <div data-aos="fade-up" data-aos-delay="180"
-               class="gallery-item filter-item" data-category="events"
-               data-lightbox-src="assets/figma_images/gallery_photo_08.jpg"
-               role="button" tabindex="0" aria-label="System Design Interactive Lab">
-            <img src="assets/figma_images/gallery_photo_08.jpg" alt="System Design Interactive Lab" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">System Design</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">System Design Interactive Lab</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Real-world Architecture Workshop</p>
+          <div data-aos="fade-up" data-aos-delay="240"
+               class="gallery-item filter-item span-2x2 tilt-card" data-category="community"
+               data-lightbox-src="assets/figma_images/gallery_photo_28.jpg"
+               role="button" tabindex="0" aria-label="Chapter Recognition Ceremony">
+            <div class="abstract-card group">
+              <span class="grid-idx">#15</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_photo_28.jpg" alt="Chapter Recognition Ceremony" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Awards</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Chapter Recognition Ceremony</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Annual Recognition Ceremony</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 16 -->
-          <div data-aos="fade-up" data-aos-delay="240"
-               class="gallery-item filter-item" data-category="community"
-               data-lightbox-src="assets/figma_images/gallery_photo_28.jpg"
-               role="button" tabindex="0" aria-label="Chapter Recognition Ceremony">
-            <img src="assets/figma_images/gallery_photo_28.jpg" alt="Chapter Recognition Ceremony" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Awards</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Chapter Recognition Ceremony</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Annual Recognition Ceremony</p>
+          <div data-aos="fade-up" data-aos-delay="60"
+               class="gallery-item filter-item span-1x2 tilt-card" data-category="community"
+               data-lightbox-src="assets/figma_images/gallery_07.jpg"
+               role="button" tabindex="0" aria-label="Inaugural Chapter Charter">
+            <div class="abstract-card group">
+              <span class="grid-idx">#16</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_07.jpg" alt="Inaugural Chapter Charter" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Inauguration</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Inaugural Chapter Charter</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">Chapter Foundation at NMIMS Indore</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 17 -->
-          <div data-aos="fade-up" data-aos-delay="300"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/figma_images/gallery_photo_31.jpg"
-               role="button" tabindex="0" aria-label="Faculty Advisors Panel">
-            <img src="assets/figma_images/gallery_photo_31.jpg" alt="Faculty Advisors Panel" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Faculty Advisors</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Faculty Advisors Panel</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Academic Leadership</p>
+          <div data-aos="fade-up" data-aos-delay="120"
+               class="gallery-item filter-item span-2x1 tilt-card" data-category="hackathons"
+               data-lightbox-src="assets/figma_images/gallery_48.jpg"
+               role="button" tabindex="0" aria-label="HackACM Hackathon Winners">
+            <div class="abstract-card group">
+              <span class="grid-idx">#17</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/gallery_48.jpg" alt="HackACM Hackathon Winners" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Awards Ceremony</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">HackACM Hackathon Winners</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">₹50,000+ Prizes Distribution</p>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Item 18 -->
-          <div data-aos="fade-up" data-aos-delay="0"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/figma_images/gallery_photo_33.jpg"
-               role="button" tabindex="0" aria-label="Executive Board Planning">
-            <img src="assets/figma_images/gallery_photo_33.jpg" alt="Executive Board Planning" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Executive Board</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Executive Board Planning</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Executive Board Session</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 19 -->
-          <div data-aos="fade-up" data-aos-delay="60"
-               class="gallery-item filter-item" data-category="community"
-               data-lightbox-src="assets/figma_images/gallery_07.jpg"
-               role="button" tabindex="0" aria-label="Inaugural Chapter Charter">
-            <img src="assets/figma_images/gallery_07.jpg" alt="Inaugural Chapter Charter" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Inauguration</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Inaugural Chapter Charter</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Chapter Foundation at NMIMS Indore</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 20 -->
-          <div data-aos="fade-up" data-aos-delay="120"
-               class="gallery-item filter-item" data-category="hackathons"
-               data-lightbox-src="assets/figma_images/gallery_48.jpg"
-               role="button" tabindex="0" aria-label="HackACM Hackathon Winners">
-            <img src="assets/figma_images/gallery_48.jpg" alt="HackACM Hackathon Winners" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Awards Ceremony</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">HackACM Hackathon Winners</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">₹50,000+ Prizes Distribution</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 21 -->
           <div data-aos="fade-up" data-aos-delay="180"
-               class="gallery-item filter-item" data-category="events"
+               class="gallery-item filter-item span-1x1 tilt-card" data-category="events"
                data-lightbox-src="assets/figma_images/container_image_1.jpg"
                role="button" tabindex="0" aria-label="Web Development Lab">
-            <img src="assets/figma_images/container_image_1.jpg" alt="Web Development Lab" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Bootcamp</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Web Development Lab</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">React, Next.js &amp; Modern Frontend</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 22 -->
-          <div data-aos="fade-up" data-aos-delay="240"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Heyramb Damle - Chairperson.jpeg"
-               role="button" tabindex="0" aria-label="Heyramb Damle">
-            <img src="assets/team/Heyramb Damle - Chairperson.jpeg" alt="Heyramb Damle" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Chairperson</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Heyramb Damle</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Chapter Executive Leader</p>
+            <div class="abstract-card group">
+              <span class="grid-idx">#18</span>
+              <div class="corner-bracket top-right"></div>
+              <img src="assets/figma_images/container_image_1.jpg" alt="Web Development Lab" loading="lazy">
+              <div class="gallery-overlay p-4 sm:p-5">
+                <div class="flex justify-between items-center z-10">
+                  <span class="pill text-[10px] px-2.5 py-0.5">Bootcamp</span>
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center bg-black/50 border border-white/20 text-white group-hover:scale-110 transition-transform">
+                    <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
+                  </div>
+                </div>
+                <div class="z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 class="font-display text-sm sm:text-base font-bold text-white tracking-tight">Web Development Lab</h3>
+                  <p class="font-mono text-[10px] sm:text-xs text-white/80 mt-0.5">React, Next.js &amp; Modern Frontend</p>
+                </div>
               </div>
             </div>
-          </div>
-
-          <!-- Item 23 -->
-          <div data-aos="fade-up" data-aos-delay="300"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Anupam Kanoongo - Vice Chairperson.jpeg"
-               role="button" tabindex="0" aria-label="Anupam Kanoongo">
-            <img src="assets/team/Anupam Kanoongo - Vice Chairperson.jpeg" alt="Anupam Kanoongo" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Vice-Chairperson</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Anupam Kanoongo</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Chapter Executive Leader</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 24 -->
-          <div data-aos="fade-up" data-aos-delay="0"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Toshan Dubey - Treasurer.jpg"
-               role="button" tabindex="0" aria-label="Toshan Dubey">
-            <img src="assets/team/Toshan Dubey - Treasurer.jpg" alt="Toshan Dubey" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Treasurer</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Toshan Dubey</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Chapter Executive Leader</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 25 -->
-          <div data-aos="fade-up" data-aos-delay="60"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Vanshika Jaiswal - Secretary.jpg"
-               role="button" tabindex="0" aria-label="Vanshika Jaiswal">
-            <img src="assets/team/Vanshika Jaiswal - Secretary.jpg" alt="Vanshika Jaiswal" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Secretary</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Vanshika Jaiswal</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Chapter Executive Leader</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 26 -->
-          <div data-aos="fade-up" data-aos-delay="120"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Pari Batra - Web Master.jpg"
-               role="button" tabindex="0" aria-label="Pari Batra">
-            <img src="assets/team/Pari Batra - Web Master.jpg" alt="Pari Batra" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Web-Master</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Pari Batra</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Chapter Executive Leader</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 27 -->
-          <div data-aos="fade-up" data-aos-delay="180"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Maithli Singh - Membership Chair.jpg"
-               role="button" tabindex="0" aria-label="Maithli Singh">
-            <img src="assets/team/Maithli Singh - Membership Chair.jpg" alt="Maithli Singh" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Membership Chair</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Maithli Singh</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Chapter Executive Leader</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 28 -->
-          <div data-aos="fade-up" data-aos-delay="240"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Nandini Namdeo - Membership Chair.jpg"
-               role="button" tabindex="0" aria-label="Nandini Namdeo">
-            <img src="assets/team/Nandini Namdeo - Membership Chair.jpg" alt="Nandini Namdeo" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Membership Chair</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Nandini Namdeo</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Chapter Executive Leader</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 29 -->
-          <div data-aos="fade-up" data-aos-delay="300"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Dr. Shruti Sharma - Faculty Coordinator.jpeg"
-               role="button" tabindex="0" aria-label="Dr. Shruti Sharma">
-            <img src="assets/team/Dr. Shruti Sharma - Faculty Coordinator.jpeg" alt="Dr. Shruti Sharma" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Faculty Coordinator</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Dr. Shruti Sharma</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Faculty Leadership</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 30 -->
-          <div data-aos="fade-up" data-aos-delay="0"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Dr. Vikas Khare - Faculty Coordinator.jpeg"
-               role="button" tabindex="0" aria-label="Dr. Vikas Khare">
-            <img src="assets/team/Dr. Vikas Khare - Faculty Coordinator.jpeg" alt="Dr. Vikas Khare" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Faculty Coordinator</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Dr. Vikas Khare</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Faculty Leadership</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 31 -->
-          <div data-aos="fade-up" data-aos-delay="60"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Dr. Ankur Ratmele - Faculty Coordinator.jpeg"
-               role="button" tabindex="0" aria-label="Dr. Ankur Ratmele">
-            <img src="assets/team/Dr. Ankur Ratmele - Faculty Coordinator.jpeg" alt="Dr. Ankur Ratmele" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Faculty Coordinator</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Dr. Ankur Ratmele</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Faculty Leadership</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 32 -->
-          <div data-aos="fade-up" data-aos-delay="120"
-               class="gallery-item filter-item" data-category="team"
-               data-lightbox-src="assets/team/Dr. Abhaydeep Deth - Faculty Coordinator.png"
-               role="button" tabindex="0" aria-label="Dr. Abhaydeep Deth">
-            <img src="assets/team/Dr. Abhaydeep Deth - Faculty Coordinator.png" alt="Dr. Abhaydeep Deth" loading="lazy" class="w-full h-auto object-cover rounded-lg">
-            <div class="gallery-overlay flex flex-col justify-between p-4">
-              <div class="flex justify-between items-center">
-                <span class="pill text-[10px] px-2.5 py-0.5">Faculty Coordinator</span>
-                <i data-lucide="zoom-in" class="w-5 h-5 text-white opacity-80"></i>
-              </div>
-              <div>
-                <h3 class="font-display text-sm font-bold text-white tracking-tight">Dr. Abhaydeep Deth</h3>
-                <p class="font-mono text-[10px] text-white/70 mt-0.5">Faculty Leadership</p>
-              </div>
-            </div>
-          </div>
-
-        </div><!-- /masonry -->
+        </div><!-- /abstract-grid -->
       </div>
     </section>
 
@@ -787,7 +660,7 @@
 
     <!-- Counter -->
     <div class="absolute top-4 left-1/2 -translate-x-1/2 font-mono text-xs z-10" style="color:#6b6a78">
-      <span id="lightbox-counter">1 / 32</span>
+      <span id="lightbox-counter">1 / 18</span>
     </div>
 
     <!-- Navigation -->
